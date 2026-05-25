@@ -38,7 +38,32 @@ def naive_softmax_loss_and_gradient(
     """
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    # Step 1: compute scores for all words
+    scores = outside_vectors.dot(center_word_vec)
+
+    # Step 2: softmax over scores to get predicted probabilities y_hat = P(O=o|C=c)
+    y_hat = softmax(scores)
+
+    # Step 3: loss = -log P(O=o|C=c)
+    loss = -np.log(y_hat[outside_word_idx])
+
+    # Step 4: construct the true distribution y (one-hot vector)
+    vocab_size = outside_vectors.shape[0]
+    y = np.zeros(vocab_size)
+    y[outside_word_idx] = 1
+
+    # Step 5: gradient w.r.t. all outside vectors u_w
+    grad_outside_vecs = np.zeros(outside_vectors.shape)
+    for w in range(vocab_size):
+        if w == outside_word_idx:
+            #if w = o: dJ/du_o = v_c * (y^T y_hat - 1)
+            grad_outside_vecs[w] = center_word_vec * (np.dot(y, y_hat) - 1)
+        else:
+            #if w != o: dJ/du_w = v_c * y_hat[w]
+            grad_outside_vecs[w] = center_word_vec * y_hat[w]
+
+    # Step 5: gradient w.r.t. center word vector v_c
+    grad_center_vec = outside_vectors.T.dot(y_hat) - outside_vectors[outside_word_idx]
     ### END YOUR CODE
 
     return loss, grad_center_vec, grad_outside_vecs
@@ -71,7 +96,30 @@ def neg_sampling_loss_and_gradient(
     indices = [outside_word_idx] + neg_sample_word_indices
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    # correct outside word vector
+    u_o = outside_vectors[outside_word_idx] 
+    # K negative sample vectors (K x D)
+    u_negs = outside_vectors[neg_sample_word_indices]  
+
+    # Step 1: compute sigmoid scores
+    # sigmoid_positive = σ(u_o^T v_c)
+    sigmoid_positive = sigmoid(u_o.dot(center_word_vec))
+    # sigmoid_negative[k] = σ(-u_k^T v_c)  for each negative sample k
+    sigmoid_negative = sigmoid(-u_negs.dot(center_word_vec))
+
+    # Step 2: compute the loss
+    loss = -np.log(sigmoid_positive) - np.sum(np.log(sigmoid_negative))
+
+    # Step 3: compute the gradient w.r.t. the center word vector
+    grad_center_vec = -(1 - sigmoid_positive) * u_o + u_negs.T.dot(1 - sigmoid_negative)
+
+    # Step 4: compute the gradient w.r.t. the outside word vectors
+    grad_outside_vecs = np.zeros(outside_vectors.shape)
+    # gradient w.r.t. the correct outside word vector
+    grad_outside_vecs[outside_word_idx] += -(1 - sigmoid_positive) * center_word_vec
+    for k, neg_idx in enumerate(neg_sample_word_indices):
+        # gradient w.r.t. the negative sample vectors
+        grad_outside_vecs[neg_idx] += (1 - sigmoid_negative[k]) * center_word_vec
     ### END YOUR CODE
 
     return loss, grad_center_vec, grad_outside_vecs
@@ -111,7 +159,23 @@ def skipgram(current_center_word, outside_words, word2ind,
     grad_outside_vectors = np.zeros(outside_vectors.shape)
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    # Look up the center word's vector using the word2ind mapping
+    center_word_idx = word2ind[current_center_word]
+    center_word_vec = center_word_vectors[center_word_idx]
+
+    # Loop over every outside word in the context window
+    for outside_word in outside_words:
+        outside_word_idx = word2ind[outside_word]
+
+        # Compute loss and gradients for this (center, outside) pair
+        current_loss, current_grad_center_vec, current_grad_outside_vecs = word2vec_loss_and_gradient(
+            center_word_vec, outside_word_idx, outside_vectors, dataset
+        )
+
+        # Accumulate loss and gradients
+        loss += current_loss
+        grad_center_vecs[center_word_idx] += current_grad_center_vec
+        grad_outside_vectors += current_grad_outside_vecs
     ### END YOUR CODE
 
     return loss, grad_center_vecs, grad_outside_vectors

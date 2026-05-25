@@ -1,2 +1,4 @@
 HW1/add_files/DAN_files/glove.npy
-HW1/add_files/DAN_files/DAN/
+HW1/add_files/DAN_files/DAN*/
+.DS_Store
+outputs/
