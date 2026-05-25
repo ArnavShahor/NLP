@@ -47,23 +47,15 @@ def naive_softmax_loss_and_gradient(
     # Step 3: loss = -log P(O=o|C=c)
     loss = -np.log(y_hat[outside_word_idx])
 
-    # Step 4: construct the true distribution y (one-hot vector)
-    vocab_size = outside_vectors.shape[0]
-    y = np.zeros(vocab_size)
-    y[outside_word_idx] = 1
+    # Step 4: build (y_hat - y) in-place; both gradient cases collapse to (y_hat[w] - y[w]) * v_c
+    y_hat_minus_y = y_hat.copy()
+    y_hat_minus_y[outside_word_idx] -= 1
 
-    # Step 5: gradient w.r.t. all outside vectors u_w
-    grad_outside_vecs = np.zeros(outside_vectors.shape)
-    for w in range(vocab_size):
-        if w == outside_word_idx:
-            #if w = o: dJ/du_o = v_c * (y^T y_hat - 1)
-            grad_outside_vecs[w] = center_word_vec * (np.dot(y, y_hat) - 1)
-        else:
-            #if w != o: dJ/du_w = v_c * y_hat[w]
-            grad_outside_vecs[w] = center_word_vec * y_hat[w]
+    # Step 5: gradient w.r.t. all outside vectors u_w (vectorized outer product)
+    grad_outside_vecs = np.outer(y_hat_minus_y, center_word_vec)
 
-    # Step 5: gradient w.r.t. center word vector v_c
-    grad_center_vec = outside_vectors.T.dot(y_hat) - outside_vectors[outside_word_idx]
+    # Step 6: gradient w.r.t. center word vector v_c
+    grad_center_vec = outside_vectors.T.dot(y_hat_minus_y)
     ### END YOUR CODE
 
     return loss, grad_center_vec, grad_outside_vecs
