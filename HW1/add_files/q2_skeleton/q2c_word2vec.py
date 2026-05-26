@@ -89,9 +89,9 @@ def neg_sampling_loss_and_gradient(
 
     ### YOUR CODE HERE
     # correct outside word vector
-    u_o = outside_vectors[outside_word_idx] 
+    u_o = outside_vectors[outside_word_idx]
     # K negative sample vectors (K x D)
-    u_negs = outside_vectors[neg_sample_word_indices]  
+    u_negs = outside_vectors[neg_sample_word_indices]
 
     # Step 1: compute sigmoid scores
     # sigmoid_positive = σ(u_o^T v_c)
@@ -160,8 +160,10 @@ def skipgram(current_center_word, outside_words, word2ind,
         outside_word_idx = word2ind[outside_word]
 
         # Compute loss and gradients for this (center, outside) pair
-        current_loss, current_grad_center_vec, current_grad_outside_vecs = word2vec_loss_and_gradient(
-            center_word_vec, outside_word_idx, outside_vectors, dataset
+        current_loss, current_grad_center_vec, current_grad_outside_vecs = (
+            word2vec_loss_and_gradient(
+                center_word_vec, outside_word_idx, outside_vectors, dataset
+            )
         )
 
         # Accumulate loss and gradients
