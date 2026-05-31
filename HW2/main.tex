@@ -106,7 +106,12 @@ Based on the training iterations of the neural bi-gram language model using GloV
 \subsection*{(a)}
 Character-based models easily handle out-of-vocabulary words and misspellings by building them character by character, and they require far fewer embedding parameters. Meanwhile, word-based models capture semantic meaning and contextual relationships more naturally. Additionally, word-based models yield shorter sequences, reducing computational costs and making it easier for the network to learn long-range dependencies without forgetting past context.
 \subsection*{(c)}
-
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\linewidth]{q2c_loss_curve.png}
+    \caption{Training loss curve for the character-level Shakespeare language model: average loss versus number of epochs (sampled every \texttt{plot\_every} steps).}
+    \label{fig:q2c_loss_curve}
+\end{figure}
 
 \section{Perplexity}
 \subsection*{(a)}
