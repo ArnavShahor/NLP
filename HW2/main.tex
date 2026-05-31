@@ -175,7 +175,7 @@ This completes the proof, showing that both expressions are mathematically ident
         Model-Data & Wikipedia Text & Shakespearean Text \\
         \hline
         Word-Level Neural Bi-gram (Section 1) & 72.40 & 125.68 \\
-        Character-level RNN (Section 2)       & 2253.55 & 2252.16 \\
+        Character-level RNN (Section 2)       & 14.97 & 6.59   \\
         \hline
     \end{tabular}
     \caption{Perplexity of the two trained language models on the Wikipedia and Shakespearean passages. Word-level perplexity is per-token; character-level perplexity is per-character, so numbers are not directly comparable across rows.}
@@ -184,6 +184,6 @@ This completes the proof, showing that both expressions are mathematically ident
 
 \subsection*{(c)}
 
-\textit{[Pending the character-level RNN numbers from the Colab notebook; the explanation will compare each model's perplexity on its in-distribution vs. out-of-distribution passage and discuss why direct cross-row comparison is meaningless because of the differing token granularity.]}
+The dominant factor in each row is train/test domain match: the word-level bigram was trained on Penn Treebank (modern news-style English), so it scores much better on the Wikipedia passage (72.40) than on the Shakespearean one (125.68), where archaic vocabulary, inversions, and rare bigram transitions force frequent UNK substitutions and low next-word probabilities. The opposite happens for the character-level RNN, which was trained on Shakespeare and therefore models that passage (6.59) more confidently than Wikipedia (14.97), since the latter contains unfamiliar surface patterns such as digits, named entities, and punctuation rarely seen during training. The huge gap between the two rows is partly an artifact of granularity rather than ``quality'': word-level perplexity is per-token over a 2000-word vocabulary, whereas character-level perplexity is per-character over a small ($\sim$70-symbol) alphabet, so the per-step branching factor and entropy are inherently much smaller. In other words, a 6.59 char-level perplexity does \emph{not} mean the RNN is ``ten times better'' than the bigram; the two numbers measure uncertainty over different units and are only directly comparable within the same row.
 
 \end{document}
