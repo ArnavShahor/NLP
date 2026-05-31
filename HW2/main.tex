@@ -193,9 +193,11 @@ Multi-head attention splits each token's $d_{model}$-dimensional vector across $
 
 \subsection*{(b)}
 
-\textbf{(i) Architecture changes.} BERT is encoder-only, operating on a single sequence. We therefore \emph{remove} the decoder stack, the cross-attention sub-layer (which only existed to bridge target to source), and the separate decoder embedding; we \emph{keep} the encoder stack, a single token embedding, and the positional encoding. The prediction head (final linear layer to vocabulary logits) is moved onto the encoder output, producing one distribution per input position, and the cross-entropy loss is applied \emph{only at the masked positions}.
+\noindent\textbf{(i) Architecture changes.} BERT is encoder-only, operating on a single sequence. We therefore \emph{remove} the decoder stack, the cross-attention sub-layer (which only existed to bridge target to source), and the separate decoder embedding; we \emph{keep} the encoder stack, a single token embedding, and the positional encoding. The prediction head (final linear layer to vocabulary logits) is moved onto the encoder output, producing one distribution per input position, and the cross-entropy loss is applied \emph{only at the masked positions}.
 
-\textbf{(ii) Masking strategy.} The two masks change in opposite directions. The attention (no-peek) mask is \emph{removed}: it enforced the autoregressive constraint that position $t$ cannot see the future, but BERT needs \emph{bidirectional} context, so self-attention runs fully unmasked. In its place we \emph{add} token-level masking (absent from the autoregressive model): roughly 15\% of input tokens are replaced with a \texttt{[MASK]} token before embedding, and the model is trained to reconstruct the originals at those positions. In short, the autoregressive model masks in \emph{attention} and leaves the input intact, whereas the MLM uses no attention mask but corrupts the \emph{input}.
+\medskip
+
+\noindent\textbf{(ii) Masking strategy.} The two masks change in opposite directions. The attention (no-peek) mask is \emph{removed}: it enforced the autoregressive constraint that position $t$ cannot see the future, but BERT needs \emph{bidirectional} context, so self-attention runs fully unmasked. In its place we \emph{add} token-level masking (absent from the autoregressive model): roughly 15\% of input tokens are replaced with a \texttt{[MASK]} token before embedding, and the model is trained to reconstruct the originals at those positions. In short, the autoregressive model masks in \emph{attention} and leaves the input intact, whereas the MLM uses no attention mask but corrupts the \emph{input}.
 
 \section{Attention Exploration}
 
