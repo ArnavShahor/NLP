@@ -168,7 +168,7 @@ This completes the proof, showing that both expressions are mathematically ident
 
 \subsection*{(b)}
 
-We compute perplexity of the trained Word-Level Neural Bi-gram LM (Section 1) and the Character-level RNN (Section 2) on the two provided passages. For the bi-gram model we load the trained parameters from \texttt{saved\_params\_40000.npy} and call \texttt{eval\_neural\_lm} on the POS-tagged versions of the passages (\texttt{wikipedia\_pos\_fromat.txt}, \texttt{shakespare\_pos\_fromat.txt}); this is implemented in \texttt{q3b\_perplexity.py} in the \texttt{q1\_2\_3} directory. For the character-level RNN we add an evaluation cell to \texttt{q2\_char\_rnn\_generation.ipynb} that, after training, teacher-forces the model through each \texttt{unidecode}-cleaned passage and computes per-character perplexity.
+The bi-gram perplexity is computed in \texttt{q1\_2\_3/q3b\_perplexity.py} (loads \texttt{saved\_params\_40000.npy} and calls \texttt{eval\_neural\_lm} on the POS-tagged passages). The character-level RNN perplexity is computed by an added cell in \texttt{q2\_char\_rnn\_generation.ipynb}.
 
 \begin{table}[h]
     \centering
