@@ -197,4 +197,17 @@ Multi-head attention splits each token's $d_{model}$-dimensional vector across $
 
 \textbf{(ii) Masking strategy.} The two masks change in opposite directions. The attention (no-peek) mask is \emph{removed}: it enforced the autoregressive constraint that position $t$ cannot see the future, but BERT needs \emph{bidirectional} context, so self-attention runs fully unmasked. In its place we \emph{add} token-level masking (absent from the autoregressive model): roughly 15\% of input tokens are replaced with a \texttt{[MASK]} token before embedding, and the model is trained to reconstruct the originals at those positions. In short, the autoregressive model masks in \emph{attention} and leaves the input intact, whereas the MLM uses no attention mask but corrupts the \emph{input}.
 
+\section{Attention Exploration}
+
+\section{AI Disclosure \& Reflection}
+
+\subsection*{(a)}
+We have used Gemini web UI, and Claude Code.
+
+\subsection*{(b)}
+We have used Gemini for theoretical validation, handwriting to latex conversion, and rephrasing our text. We've used Claude Code for help with pytorch and writing the matplotlib section of the notebook.
+
+\subsection*{(c)}
+Only helped, but we mainly used it for things we know how to do to accelerate things, so no surprise noted here.
+
 \end{document}
