@@ -165,4 +165,27 @@ Substituting $x_i = p(s_{i}|s_{1},...,s_{i-1})$ back into the formula gives us t
 \]
 
 This completes the proof, showing that both expressions are mathematically identical.
+
+\subsection*{(b)}
+
+We compute perplexity of the trained Word-Level Neural Bi-gram LM (Section 1) and the Character-level RNN (Section 2) on the two provided passages. For the bi-gram model we load the trained parameters from \texttt{saved\_params\_40000.npy} and call \texttt{eval\_neural\_lm} on the POS-tagged versions of the passages (\texttt{wikipedia\_pos\_fromat.txt}, \texttt{shakespare\_pos\_fromat.txt}); this is implemented in \texttt{q3b\_perplexity.py} in the \texttt{q1\_2\_3} directory. For the character-level RNN we add an evaluation cell to \texttt{q2\_char\_rnn\_generation.ipynb} that, after training, teacher-forces the model through each \texttt{unidecode}-cleaned passage and computes per-character perplexity.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lcc}
+        \hline
+        Model-Data & Wikipedia Text & Shakespearean Text \\
+        \hline
+        Word-Level Neural Bi-gram (Section 1) & 72.40 & 125.68 \\
+        Character-level RNN (Section 2)       & TBD   & TBD    \\
+        \hline
+    \end{tabular}
+    \caption{Perplexity of the two trained language models on the Wikipedia and Shakespearean passages. Word-level perplexity is per-token; character-level perplexity is per-character, so numbers are not directly comparable across rows.}
+    \label{tab:q3b_perplexity}
+\end{table}
+
+\subsection*{(c)}
+
+\textit{[Pending the character-level RNN numbers from the Colab notebook; the explanation will compare each model's perplexity on its in-distribution vs. out-of-distribution passage and discuss why direct cross-row comparison is meaningless because of the differing token granularity.]}
+
 \end{document}
