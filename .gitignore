@@ -10,3 +10,14 @@ __pycache__/
 # MS Word working drafts (final writeup lives in Overleaf)
 *.docx
 ~$*
+
+# LaTeX build artifacts (keep .tex sources, ignore generated files)
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.bbl
+*.blg
