@@ -21,4 +21,5 @@ __pycache__/
 *.synctex.gz
 *.bbl
 *.blg
+HW2/main.pdf
 .claude/settings.local.json
