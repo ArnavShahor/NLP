@@ -177,7 +177,7 @@ This completes the proof, showing that both expressions are mathematically ident
         Model-Data & Wikipedia Text & Shakespearean Text \\
         \hline
         Word-Level Neural Bi-gram (Section 1) & 72.40 & 125.68 \\
-        Character-level RNN (Section 2)       & 14.97 & 6.59   \\
+        Character-level RNN (Section 2)       & 16.19 & 7.09   \\
         \hline
     \end{tabular}
     \caption{Perplexity of the two trained language models on the Wikipedia and Shakespearean passages. Word-level perplexity is per-token; character-level perplexity is per-character, so numbers are not directly comparable across rows.}
@@ -186,7 +186,7 @@ This completes the proof, showing that both expressions are mathematically ident
 
 \subsection*{(c)}
 
-The main factor within each row is train/test domain match. The word-level bigram was trained on Penn Treebank (modern English), so it scores far better on Wikipedia (72.40) than on Shakespeare (125.68), where archaic vocabulary and rare transitions force frequent UNK substitutions. The character-level RNN shows the opposite pattern, modeling its in-domain Shakespeare (6.59) more confidently than the unfamiliar Wikipedia text (14.97). The large gap \emph{between} rows is mostly an artifact of granularity, not quality: word-level perplexity is per-token over a 2000-word vocabulary, whereas character-level perplexity is per-character over a $\sim$70-symbol alphabet, giving a much smaller branching factor. The two rows therefore measure uncertainty over different units and are only directly comparable within a row.
+The main factor within each row is train/test domain match. The word-level bigram was trained on Penn Treebank (modern English), so it scores far better on Wikipedia (72.40) than on Shakespeare (125.68), where archaic syntax and rare word-to-word transitions are poorly modeled by a bigram trained on modern English. The character-level RNN shows the opposite pattern, modeling its in-domain Shakespeare (7.09) more confidently than the unfamiliar Wikipedia text (16.19). The large gap \emph{between} rows is mostly an artifact of granularity, not quality: word-level perplexity is per-token over a 2000-word vocabulary, whereas character-level perplexity is per-character over a 100-symbol alphabet, giving a much smaller branching factor. The two rows therefore measure uncertainty over different units and are only directly comparable within a row.
 
 \newpage
 \section{Implementing a Transformer Model}
