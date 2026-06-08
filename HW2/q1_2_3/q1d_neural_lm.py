@@ -7,7 +7,9 @@ import pandas as pd
 
 from data_utils import utils
 from sgd import sgd
-from q1c_neural import forward, forward_backward_prop
+from q1c_neural import forward_backward_prop
+from sigmoid import sigmoid
+from softmax import softmax
 
 
 VOCAB_EMBEDDING_PATH = "data/lm/vocab.embeddings.glove.txt"
@@ -105,12 +107,25 @@ def eval_neural_lm(eval_data_path):
 
     perplexity = 0
     ### YOUR CODE HERE
-    log_probs = 0
-    for i in range(num_of_examples):
-        curr_input_embedding = num_to_word_embedding[in_word_index[i]]
-        curr_label = out_word_index[i]
-        curr_prob = forward(curr_input_embedding, curr_label, params, dimensions)
-        log_probs += np.log(curr_prob)
+    # Vectorized evaluation: stack every bigram example into one batch and run a
+    # single forward pass, instead of looping example-by-example.
+    Dx, H, Dy = dimensions
+    ofs = 0
+    W1 = np.reshape(params[ofs:ofs + Dx * H], (Dx, H))
+    ofs += Dx * H
+    b1 = np.reshape(params[ofs:ofs + H], (1, H))
+    ofs += H
+    W2 = np.reshape(params[ofs:ofs + H * Dy], (H, Dy))
+    ofs += H * Dy
+    b2 = np.reshape(params[ofs:ofs + Dy], (1, Dy))
+
+    data = np.array([num_to_word_embedding[w] for w in in_word_index])  # (N, Dx)
+    labels = np.array(out_word_index)                                   # (N,)
+
+    h = sigmoid(data @ W1 + b1)
+    y_hat = softmax(h @ W2 + b2)                                        # (N, Dy)
+    label_probs = y_hat[np.arange(num_of_examples), labels]
+    log_probs = np.sum(np.log(label_probs))
     perplexity = np.exp(-log_probs / num_of_examples)
     ### END YOUR CODE
 
