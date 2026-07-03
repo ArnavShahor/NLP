@@ -141,16 +141,41 @@ class AccuserAgent(Agent):
         return self.take_turn_naive(comm_channel)
 
 class SummerizerAgent(Agent):
-    def __init__(self, name):
+    def __init__(self, name, suspect_sount=None):
         super().__init__(name)
+        self.suspect_count = suspect_sount
 
     def summarize(self, comm_channel):
-        #######
-        # your code here
+        # Nothing to compress yet: return the channel unchanged.
+        if not comm_channel.strip():
+            return comm_channel
 
-        # return summary
-        #######
-        raise NotImplementedError
+        count_str = f"{self.suspect_count} suspects" if self.suspect_count else "several suspects"
+        sys_prompt = f"""
+                You are the Summarizer in a deduction game with {count_str} (referred to as
+                "Suspect 1", "Suspect 2", ...). You are given the current communication channel
+                between the Accuser and the Intel agent, and you must REWRITE it into a shorter
+                version that lets the game continue without losing any information.
+
+                You MUST preserve every evidentiary detail exactly:
+                - For each suspect, keep every confirmed fact: which attribute values they DO have
+                  and which they DO NOT have.
+                - Keep the result of every question the Accuser asked and every answer the Intel gave.
+                - Keep any accusation that was made and whether it was wrong.
+
+                Rules:
+                - Do NOT invent, guess, or alter any fact. If it was not stated, do not add it.
+                - Do NOT drop any clue; a lost clue can cause the Accuser to fail.
+                - Be concise: merge redundant statements and organize the facts per suspect.
+                - Output ONLY the rewritten channel text, with no preamble or extra commentary.
+                """
+        prompt = f"""
+                Current communication channel:
+                {comm_channel}
+                """
+        summary = query_llama(prompt, sys_prompt=sys_prompt, temperature=0.2, max_tokens=1024)
+        # Trailing newline keeps the naive Intel's last-message parsing intact after a rewrite.
+        return summary.strip() + "\n"
 
     def take_turn(self, comm_channel, turns_left=None):
         summary = self.summarize(comm_channel)
