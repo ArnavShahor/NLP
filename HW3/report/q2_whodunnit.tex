@@ -29,69 +29,52 @@
 
 \section*{2.1 \quad Naive Agent Implementation (Analysis)}
 
-We ran the naive baseline with the default configuration and no additional flags:
-\begin{lstlisting}[style=gamelog]
-python run_game.py --iterations 3
-# 3 suspects, max_turn_count = 11, no summarizer, no internal thought
-\end{lstlisting}
-Here \emph{Alex} is the Accuser and \emph{Beth} is the Intel agent. The full log is
-reproduced in Appendix~\ref{app:naive}; the analysis below cites it directly.
+We ran the naive baseline with the default configuration and no additional flags
+(\texttt{python run\_game.py --iterations 3}: 3 suspects, \texttt{max\_turn\_count = 11},
+no summarizer, no internal thought). \emph{Alex} is the Accuser and \emph{Beth} the Intel
+agent. The full log is in Appendix~\ref{app:naive}; the analysis below cites it directly.
 
-\subsection*{Behavioral problems identified (concrete examples)}
+\subsection*{What specific behavioral problems did you identify in the initial run of the
+naive agents? Provide at least two concrete examples from your \texttt{game\_log}.}
 
-\paragraph{Problem 1 --- Analysis paralysis: the Accuser will not accuse even when the
+\paragraph{Problem A --- Analysis paralysis: the Accuser will not accuse even when the
 culprit is already uniquely determined.}
-\begin{itemize}[leftmargin=1.4em]
-  \item \textbf{Game 1} (culprit $=$ Suspect~3). Only Suspect~3 wears square eye glasses.
-  On the second question Beth answered \texttt{square eye glasses $\rightarrow$ Suspect 3}.
-  Because the Accuser knows the culprit has square glasses, the culprit was uniquely
-  identified at that point. Yet Alex asked \emph{four more} redundant broad questions
-  (long hair, black hat, red shoes, silver watch), never accused, and hit the turn limit.
-  \item \textbf{Game 2} (culprit $=$ Suspect~3). The answers
-  \texttt{blue eye color $\rightarrow$ S2, S3} and
-  \texttt{circular eye glasses $\rightarrow$ S1, S3} intersect to the single suspect
-  \{S3\}. Alex again kept questioning and ran out of turns without accusing.
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Game 1} (culprit $=$ Suspect~3): only Suspect~3 wears square glasses, so
+  Beth's answer \texttt{square eye glasses $\rightarrow$ Suspect 3} already fixed the
+  culprit. Alex still asked four more broad questions and never accused, hitting the turn limit.
+  \item \textbf{Game 2} (culprit $=$ Suspect~3): \texttt{blue eye color $\rightarrow$ S2, S3}
+  and \texttt{circular eye glasses $\rightarrow$ S1, S3} intersect to \{S3\}, yet Alex kept
+  questioning until timeout.
 \end{itemize}
 
-\paragraph{Problem 2 --- Action-space collapse: the agent uses only one of its three
-actions.} Across all three games Alex issued \emph{only} \texttt{request-broad}: not a
-single \texttt{request-specific} question ever appeared. Consequently Beth was exercised
-only through \texttt{respond-broad}; her \texttt{respond} (Yes/No) action was never used.
-Both agents collapse onto a narrow slice of their available action space.
+\paragraph{Problem B --- No cross-turn reasoning.} The Accuser treats each answer in
+isolation and never intersects the narrowing suspect lists into a running candidate set, so
+it cannot recognize that only one suspect remains --- the root cause of Problem~A.
 
-\paragraph{Problem 3 --- No cross-turn reasoning / no candidate tracking.} The Accuser
-treats every answer in isolation and never intersects the progressively narrowing suspect
-lists into a running ``still-possible'' set. This is the root cause of Problem~1: the agent
-literally cannot recognize that it is already done.
+\subsection*{Do the agents dynamically utilize the full spectrum of their available action
+space, or do they prematurely converge on a single, repetitive action type? Analyze how
+this behavioral pattern affects their overall progress.}
 
-\subsection*{Do the agents use their full action space, or converge on one action?}
-They \textbf{converge}. The Accuser collapses onto \texttt{request-broad}
-(zero \texttt{request-specific} calls in all three games; \texttt{accuse} used only once,
-in Game~3), which in turn forces the Intel into \texttt{respond-broad} only. Because the
-terminal \texttt{accuse} action is under-used, information keeps accumulating but is rarely
-acted upon --- so progress stalls and games tend to end in \textbf{timeout rather than a
-decision}. Games~1 and~2 both exhausted all 11 turns without an accusation.
+They \textbf{converge}. Alex issues only \texttt{request-broad} in all three games (zero
+\texttt{request-specific}; \texttt{accuse} only once, in Game~3), which in turn forces Beth
+into \texttt{respond-broad} only. Because the terminal \texttt{accuse} action is under-used,
+information accumulates but is rarely acted upon, so games stall: Games~1 and~2 exhaust all
+11 turns without an accusation, ending in timeout rather than a decision.
 
-\subsection*{Blind premature accusation, or endless loop until \texttt{max-turn-count}?}
-The Accuser gets stuck in an \textbf{endless questioning loop} --- the opposite of a blind,
-premature accusation. Games~1 and~2 reached \texttt{max-turn-count} with no accusation at
-all; only Game~3 accused (correctly, Suspect~1), and even there only after redundant
-re-confirmation (\texttt{square eye glasses $\rightarrow$ S1} already sufficed, but Alex
-first asked about short hair and black hat).
+\subsection*{Does the Accuser make a blind accusation prematurely, or does it get stuck in
+an endless loop until the \texttt{max-turn-count} is reached? Why do you think it struggles
+to finalize the decision?}
 
-\medskip
-\noindent\textbf{Why it struggles to finalize:}
-\begin{enumerate}[leftmargin=1.6em]
-  \item \textbf{Stateless prompting.} Each turn re-reads the raw channel but is never
-  guided to maintain or intersect a candidate set, so the agent never notices that a single
-  suspect remains.
-  \item \textbf{No reasoning room.} The naive prompt explicitly forbids reasoning
-  (\emph{``not allowed to include any reasoning process''}), so the model defaults to the
-  low-risk habit of asking one more question instead of committing.
-  \item \textbf{No firm stopping criterion.} ``Accuse when certain'' never triggers,
-  because certainty is never established without candidate tracking.
-  \item \textbf{Sampling noise.} \texttt{temperature = 0.8} adds variability, but the
-  dominant, consistent behavior is continued questioning.
+It gets stuck in an \textbf{endless questioning loop}, not a premature accusation: Games~1
+and~2 reach \texttt{max-turn-count} with no accusation, and Game~3 accuses correctly only
+after redundant confirmation. It struggles to finalize because:
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item \textbf{Stateless prompting} --- no maintained candidate set, so it never sees that
+  one suspect remains;
+  \item the naive prompt \textbf{forbids reasoning}, so the model defaults to asking one
+  more question rather than committing;
+  \item \textbf{no firm stopping criterion}, so ``accuse when certain'' never triggers.
 \end{enumerate}
 
 \appendix
