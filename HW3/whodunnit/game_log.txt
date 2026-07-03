@@ -1,22 +1,64 @@
 Game 1
 Suspects:
-Suspect 1: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a black hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a silver watch, they have short, black pants and a pink, button-up shirt.
-Suspect 2: their eye color is brown, they have circular eye glasses, their hair is short, is wearing a black hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a bronze watch, they have short, brown pants and a pink, tee shirt.
-Suspect 3: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a silver watch, they have long, black pants and a pink, button-up shirt.
+Suspect 1: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a bronze watch, they have long, black pants and a pink, button-up shirt.
+Suspect 2: their eye color is green, they have circular eye glasses, their hair is long, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have red shoes, they have a silver watch, they have short, black pants and a pink, button-up shirt.
+Suspect 3: their eye color is green, they have square eye glasses, their hair is long, is wearing a black hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a silver watch, they have long, black pants and a green, tee shirt.
 ==
 The culprit is: 3
 ==
 Communication channel:
-Alex asked a specific question: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Beth responded with: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Alex asked a specific question: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Beth responded with: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Alex asked a specific question: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Beth responded with: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Alex asked a specific question: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Beth responded with: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Alex asked a specific question: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Beth responded with: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
-Alex asked a specific question: Error: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
+Alex asked a broad question about: green eye color
+Beth responded with: Suspect 2, Suspect 3
+Alex asked a broad question about: square eye glasses
+Beth responded with: Suspect 3
+Alex asked a broad question about: long hair
+Beth responded with: Suspect 1, Suspect 2, Suspect 3
+Alex asked a broad question about: black hat
+Beth responded with: Suspect 1, Suspect 3
+Alex asked a broad question about: red shoes
+Beth responded with: Suspect 2, Suspect 3
+Alex asked a broad question about: silver watch
+
+=================
+Game 2
+Suspects:
+Suspect 1: their eye color is green, they have circular eye glasses, their hair is short, is wearing a black hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a bronze watch, they have short, black pants and a pink, tee shirt.
+Suspect 2: their eye color is blue, they have square eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a happy mood, they have red shoes, they have a silver watch, they have short, black pants and a green, tee shirt.
+Suspect 3: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a silver watch, they have short, brown pants and a green, tee shirt.
+==
+The culprit is: 3
+==
+Communication channel:
+Alex asked a broad question about: blue eye color
+Beth responded with: Suspect 2, Suspect 3
+Alex asked a broad question about: circular eye glasses
+Beth responded with: Suspect 1, Suspect 3
+Alex asked a broad question about: short hair
+Beth responded with: Suspect 1, Suspect 2, Suspect 3
+Alex asked a broad question about: brown hat
+Beth responded with: Suspect 2, Suspect 3
+Alex asked a broad question about: white shoes
+Beth responded with: Suspect 1, Suspect 3
+Alex asked a broad question about: silver watch
+
+=================
+Game 3
+Suspects:
+Suspect 1: their eye color is brown, they have square eye glasses, their hair is short, is wearing a black hat, their hobby is basketball, is in a sad mood, they have red shoes, they have a bronze watch, they have short, black pants and a green, button-up shirt.
+Suspect 2: their eye color is green, they have circular eye glasses, their hair is long, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a bronze watch, they have short, black pants and a pink, button-up shirt.
+Suspect 3: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have red shoes, they have a bronze watch, they have short, black pants and a pink, tee shirt.
+==
+The culprit is: 1
+==
+Communication channel:
+Alex asked a broad question about: brown eye color
+Beth responded with: Suspect 1, Suspect 3
+Alex asked a broad question about: square eye glasses
+Beth responded with: Suspect 1
+Alex asked a broad question about: short hair
+Beth responded with: Suspect 1
+Alex asked a broad question about: black hat
+Beth responded with: Suspect 1
+Alex accused Suspect 1 and was correct!
 
 =================
