@@ -178,31 +178,35 @@ limit and API rate restrictions); analyze the factors that contribute to failure
 
 \paragraph{Residual failure.} In one 3-suspect game (Game~2) the intersection was already
 \{S3\} after four broad answers, yet the Accuser asked a redundant specific question and
-timed out. Cause: the model performs the set-intersection heuristically and sometimes
-over-verifies; with an 11-turn limit the Accuser gets only $\approx$6 moves, so one or two
-wasted questions cause a timeout.
+timed out. This is a symptom of \emph{over-verification} (see below): the model reaches the
+answer but keeps asking, and with only $\approx$6 Accuser moves at the 11-turn limit, one or
+two wasted questions cause a timeout.
 
 \paragraph{Scaling.} We increased the suspect count with the turn limit set to $3\times$
-suspects:
+suspects. All configurations were \textbf{solved correctly}:
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
-  \item \textbf{5 suspects} (15 turns): \textbf{solved correctly} (accused Suspect~3).
-  \item \textbf{8 suspects} (24 turns): reasoning was on track --- after four broad
-  questions the intersection was already exactly \{S2\}$=$culprit --- but the run hit the
-  Groq free-tier \textbf{daily token cap} (\texttt{tokens per day (TPD): Limit 100000, Used
-  99460}) on the 5th question and could not continue. This was \emph{not} a reasoning
-  failure but the API budget.
-  \item \textbf{12 suspects}: every call returned the same TPD~429 from the first turn (the
-  daily budget was already exhausted), so no game could run.
+  \item \textbf{5 suspects} (15 turns): accused Suspect~3 correctly.
+  \item \textbf{8 suspects} (24 turns): accused Suspect~3 correctly. The intersection was
+  already \{S3\} after \emph{2} questions (\texttt{green eyes}$\to$\{3,7\} $\cap$
+  \texttt{black hat}$\to$\{3,5,6\}), but the Accuser asked \emph{7} before accusing.
+  \item \textbf{12 suspects} (36 turns): accused Suspect~1 correctly. The intersection
+  collapsed to \{S1\} after \emph{4} questions, yet the Accuser asked \emph{10} before
+  accusing.
 \end{itemize}
-\textbf{Conclusion:} the agents reliably handled up to 5 suspects and were one step from
-solving 8; the binding constraint at scale is the \textbf{free-tier daily token budget}
-(the ``applicable API rate restrictions'' the question anticipates), not reasoning. Each
-turn is token-expensive ($\approx$1024-token thoughts, plus an Intel system prompt that
-grows with the suspect count), so a single 8-suspect game consumes a large fraction of the
-100k/day allowance. Beyond the budget, the factors that would degrade larger games are:
-longer Intel prompts (more suspects to scan $\Rightarrow$ occasional missed/incorrect list
-entries), a larger candidate set needing more questions than the turn limit allows, and a
-higher chance the model mis-tracks the intersection.
+So the agents' reasoning reliably scales to \textbf{at least 12 suspects} (the largest we
+tested) given a turn limit of $\approx 3\times$ the suspect count.
+
+\paragraph{Factors that limit scaling.} (1)~\textbf{Over-verification} is the dominant
+inefficiency: the Accuser asks far more questions than needed to reach a singleton (7 vs 2
+at $N{=}8$; 10 vs 4 at $N{=}12$). This is harmless when turns are plentiful but is precisely
+what causes timeouts under a tight limit --- so the required turn budget, not correctness,
+is the practical ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-token
+thoughts plus an Intel prompt that grows with $N$) is token-expensive; on an earlier run the
+same $N{=}8$/$N{=}12$ games exhausted the Groq free-tier \textbf{daily token cap}
+(\texttt{tokens per day: Limit 100000}) mid-game, so throughput --- how many/how large games
+per day --- is bounded by the budget even though a single game succeeds. (3)~\textbf{Intel
+accuracy at scale:} with 12 descriptions to scan per broad question there is more room for a
+missed or misclassified suspect, which would corrupt the intersection.
 
 \subsection*{Propose three modifications that could further enhance agent performance and
 improve the overall success rate of the system.}
@@ -210,11 +214,12 @@ improve the overall success rate of the system.}
   \item \textbf{Deterministic candidate tracking in code.} Maintain a per-suspect table of
   confirmed/excluded attributes parsed from the Q\&A and auto-accuse once a single candidate
   remains; let the LLM only \emph{choose questions}. This removes reliance on the model's
-  mental set-intersection and directly fixes the Game~2 timeout.
+  mental set-intersection and directly eliminates the over-verification that causes
+  timeouts.
   \item \textbf{Information-maximizing, de-duplicated questions.} Instruct the Accuser to
   pick the attribute whose answer most evenly splits the remaining candidates
   (binary-search/entropy style) and forbid repeating any prior question --- fewer turns
-  needed, so it scales better under the turn limit.
+  needed, so larger pools fit under the turn limit.
   \item \textbf{Token-budget efficiency.} Cap reasoning length, use the small model for the
   narrowing questions and the 70B model only for the final accusation, and add a
   \texttt{time.sleep}/backoff-and-retry on 429 --- so larger suspect pools fit within the
@@ -238,8 +243,12 @@ improve the overall success rate of the system.}
 \label{app:scale5}
 \lstinputlisting[style=gamelog]{logs/scale5_game_log.txt}
 
-\section{Reasoning-agent scaling: 8 suspects (excerpt; hit daily token cap)}
+\section{Reasoning-agent scaling: 8 suspects}
 \label{app:scale8}
-\lstinputlisting[style=gamelog]{logs/scale8_excerpt.txt}
+\lstinputlisting[style=gamelog]{logs/scale8_game_log.txt}
+
+\section{Reasoning-agent scaling: 12 suspects}
+\label{app:scale12}
+\lstinputlisting[style=gamelog]{logs/scale12_game_log.txt}
 
 \end{document}
