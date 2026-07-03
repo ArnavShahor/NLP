@@ -1,0 +1,86 @@
+Game 1
+Suspects:
+Suspect 1: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a brown hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a bronze watch, they have long, brown pants and a pink, tee shirt.
+Suspect 2: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a silver watch, they have short, black pants and a green, tee shirt.
+Suspect 3: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a bronze watch, they have long, black pants and a pink, tee shirt.
+==
+The culprit is: 3
+==
+Communication channel:
+Alex asked a broad question about: blue eye color
+Beth responded with: Suspect 3
+Charlie summarized the game so far: Alex asked about blue eye color and Beth responded that Suspect 3 has it.
+
+Alex asked a broad question about: circular eye glasses
+Beth responded with: Suspect 1, Suspect 2, Suspect 3
+Charlie summarized the game so far: Suspect 1: possibly has circular eye glasses. 
+Suspect 2: possibly has circular eye glasses. 
+Suspect 3: has blue eye color, possibly has circular eye glasses.
+
+Alex asked a broad question about: blue eye color
+Beth responded with: Suspect 3
+Charlie summarized the game so far: Suspect 1: possibly has circular eye glasses.
+Suspect 2: possibly has circular eye glasses.
+Suspect 3: has blue eye color, possibly has circular eye glasses.
+Alex asked about blue eye color and Beth responded with Suspect 3.
+
+Alex asked a broad question about: circular eye glasses
+Beth responded with: Suspect 1, Suspect 2, Suspect 3
+
+=================
+Game 2
+Suspects:
+Suspect 1: their eye color is brown, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have red shoes, they have a silver watch, they have long, black pants and a green, tee shirt.
+Suspect 2: their eye color is blue, they have square eye glasses, their hair is long, is wearing a brown hat, their hobby is dancing, is in a happy mood, they have red shoes, they have a bronze watch, they have short, black pants and a green, button-up shirt.
+Suspect 3: their eye color is brown, they have square eye glasses, their hair is long, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a silver watch, they have short, brown pants and a green, button-up shirt.
+==
+The culprit is: 2
+==
+Communication channel:
+Alex asked a broad question about: blue eye color
+Beth responded with: Suspect 2
+Charlie summarized the game so far: Suspect 2 has blue eye color.
+
+Alex asked a specific question: Does Suspect 2 wear square eye glasses?
+Beth responded with: Yes
+Charlie summarized the game so far: Suspect 2: blue eye color, wears square eye glasses. 
+Alex asked if Suspect 2 wears square eye glasses, Beth answered yes.
+
+Alex asked a specific question: Does Suspect 2 have long hair?
+Beth responded with: Yes
+Charlie summarized the game so far: Suspect 2: blue eye color, wears square eye glasses, has long hair. 
+Alex asked if Suspect 2 wears square eye glasses, Beth answered yes. 
+Alex asked if Suspect 2 has long hair, Beth answered yes.
+
+Alex asked a specific question: Does Suspect 2 wear a brown hat?
+Beth responded with: Yes
+
+=================
+Game 3
+Suspects:
+Suspect 1: their eye color is green, they have square eye glasses, their hair is long, is wearing a black hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a silver watch, they have short, black pants and a pink, button-up shirt.
+Suspect 2: their eye color is blue, they have circular eye glasses, their hair is long, is wearing a brown hat, their hobby is basketball, is in a sad mood, they have red shoes, they have a bronze watch, they have long, black pants and a green, tee shirt.
+Suspect 3: their eye color is brown, they have square eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a bronze watch, they have long, black pants and a green, tee shirt.
+==
+The culprit is: 2
+==
+Communication channel:
+Alex asked a broad question about: blue eye color
+Beth responded with: Suspect 2
+Charlie summarized the game so far: Suspect 2 has blue eye color.
+
+Alex asked a specific question: Does Suspect 2 wear circular eye glasses?
+Beth responded with: Yes
+Charlie summarized the game so far: Suspect 2: blue eye color, wears circular eye glasses. 
+Alex asked if Suspect 2 wears circular eye glasses, Beth answered yes.
+
+Alex asked a specific question: Does Suspect 2 have long hair?
+Beth responded with: Yes
+Charlie summarized the game so far: Suspect 2: blue eye color, wears circular eye glasses, has long hair. 
+Alex asked if Suspect 2 wears circular eye glasses, Beth answered yes. 
+Alex asked if Suspect 2 has long hair, Beth answered yes.
+
+Alex asked a specific question: Does Suspect 2 wear a brown hat
+Beth responded with: Yes
+
+=================

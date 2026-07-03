@@ -77,9 +77,59 @@ after redundant confirmation. It struggles to finalize because:
   \item \textbf{no firm stopping criterion}, so ``accuse when certain'' never triggers.
 \end{enumerate}
 
+\section*{2.2 \quad Context Management via Summarization}
+
+We implemented \texttt{SummerizerAgent.summarize} as an evidence-preserving LLM rewrite of
+the channel (\texttt{temperature}=0.2, prompt instructed to keep every per-suspect
+confirmed/excluded attribute and never invent facts) and ran with the summarizer enabled
+(\texttt{python run\_game.py --include-summerizer --iterations 3}). The Summarizer is
+\emph{Charlie}. The full log is in Appendix~\ref{app:summ}.
+
+\subsection*{Did the summarizer inadvertently remove any critical clues that led to the
+Accuser failing to identify the culprit? Provide a specific example from the logs.}
+
+The decisive clues were generally \emph{kept}, but the summarizer distorted evidentiary
+\emph{certainty}. In Game~1 Beth stated definitely that
+\texttt{circular eye glasses $\rightarrow$ Suspect 1, Suspect 2, Suspect 3}, yet Charlie
+rewrote this as ``Suspect~1: \emph{possibly} has circular eye glasses'' (and likewise for
+S2, S3), downgrading a confirmed fact to an uncertain one. This ambiguity plausibly caused
+Alex to redundantly re-ask both ``blue eye color'' and ``circular eye glasses,'' exhausting
+its turns without accusing --- even though the culprit-identifying clue (only Suspect~3 has
+blue eyes) had actually been preserved.
+
+\subsection*{Did the reduction in context length result in more coherent questions responses
+from the Accuser and Intel agents, or did the loss of ``raw'' dialogue history make their
+behavior less natural?}
+
+Mixed, but coherence improved in 2 of 3 games. The per-suspect organized summaries
+(e.g.\ Game~2: ``Suspect~2: blue eye color, wears square eye glasses, has long hair'') kept
+the Accuser tightly focused on the correct suspect and pushed it toward targeted
+\texttt{request-specific} questions --- an improvement over the naive baseline's endless
+broad queries. But when a summary was vague (Game~1's ``possibly has''), the loss of the
+verbatim Q\&A record removed Alex's memory of what it had already asked and it repeated
+questions. So compression helps when the summary is faithful and structured, and hurts when
+it introduces ambiguity.
+
+\subsection*{Based on your observations, do you believe this summarization approach would
+scale to a game with a much larger suspect pool (e.g., \texttt{suspect-count=20})? Explain
+your reasoning.}
+
+Not without changes. (1)~A free-text LLM rewrite is lossy: the ``possibly'' distortion seen
+at 3 suspects will compound at 20, and a single weakened or dropped fact can leave the
+culprit ambiguous. (2)~The summary must record facts for many suspects, so its length grows
+with the pool and the ``concise channel'' benefit erodes. (3)~The real bottleneck is the
+Accuser's reasoning and stopping ability, which summarization does not address --- and a
+third of all turns are consumed by summarizing. A deterministic, structured state (a
+maintained per-suspect table of confirmed/excluded attributes) would scale far better than a
+natural-language summary.
+
 \appendix
 \section{Naive baseline game log}
 \label{app:naive}
 \lstinputlisting[style=gamelog]{logs/naive_game_log.txt}
+
+\section{Summarizer-enabled game log}
+\label{app:summ}
+\lstinputlisting[style=gamelog]{logs/summarizer_game_log.txt}
 
 \end{document}
