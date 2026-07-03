@@ -198,7 +198,11 @@ suspects. All configurations were \textbf{solved correctly}:
   and the next turn accused correctly).
 \end{itemize}
 So the agents' reasoning reliably scales to \textbf{at least 16 suspects} (the largest we
-tested) given a turn limit of $\approx 3\times$ the suspect count.
+tested) given a turn limit of $\approx 3\times$ the suspect count. A further attempt at
+\textbf{20 suspects} (60-turn limit) could not be evaluated: it exhausted the Groq
+free-tier daily token cap after only 7 answered questions (\texttt{Used 99221/100000}), so
+no accusation was reached. That is a budget cutoff, not a reasoning failure --- the
+confirmed solved maximum therefore stands at 16.
 
 \paragraph{Factors that limit scaling.} (1)~\textbf{Over-verification} is the dominant
 inefficiency: the Accuser consistently asks several more questions than needed to reach a
@@ -206,12 +210,13 @@ singleton (needed vs.\ asked was 2 vs.\ 7 at $N{=}8$, 4 vs.\ 10 at $N{=}12$, 5 v
 $N{=}16$). This is harmless when turns are plentiful but is precisely what causes timeouts
 under a tight limit --- so the required turn budget, not correctness, is the practical
 ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-token thoughts plus an Intel
-prompt that grows with $N$) is token-expensive; on an earlier run the same
-$N{=}8$/$N{=}12$ games exhausted the Groq free-tier \textbf{daily token cap}
-(\texttt{tokens per day: Limit 100000}) mid-game, so throughput --- how many/how large games
-per day --- is bounded by the budget even though a single game succeeds. (3)~\textbf{Intel
-accuracy at scale:} with 16 descriptions to scan per broad question there is more room for a
-missed or misclassified suspect, which would corrupt the intersection.
+prompt that grows with $N$) is token-expensive. The $N{=}20$ attempt hit the Groq free-tier
+\textbf{daily token cap} (\texttt{tokens per day: Limit 100000}) after just 7 answered
+questions, and on an earlier day even $N{=}8$/$N{=}12$ capped mid-game. So throughput ---
+how many and how large the games can be per day --- is bounded by the budget even when a
+single game's reasoning would succeed. (3)~\textbf{Intel accuracy at scale:} with 16+
+descriptions to scan per broad question there is more room for a missed or misclassified
+suspect, which would corrupt the intersection.
 
 \subsection*{Propose three modifications that could further enhance agent performance and
 improve the overall success rate of the system.}
@@ -259,5 +264,9 @@ improve the overall success rate of the system.}
 \section{Reasoning-agent scaling: 16 suspects}
 \label{app:scale16}
 \lstinputlisting[style=gamelog]{logs/scale16_game_log.txt}
+
+\section{Reasoning-agent scaling: 20 suspects (excerpt; hit daily token cap after 7 questions)}
+\label{app:scale20}
+\lstinputlisting[style=gamelog]{logs/scale20_excerpt.txt}
 
 \end{document}
