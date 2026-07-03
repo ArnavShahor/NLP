@@ -1,0 +1,722 @@
+[
+    {
+        "qid": "09eaaf2d0f2a18d4b785",
+        "question": "Would you find a tibia beside parsley on a holiday plate?",
+        "answer": true,
+        "facts": [
+            "The tibia of a goat is eaten during Passover, a Jewish holiday",
+            "Parsley is served on a Passover seder plate beside the goat shank "
+        ],
+        "decomposition": [
+            "How is Passover celebrated?",
+            "What part of a goat is eaten during #1?",
+            "Is parsley typically served on the same plate as #2?"
+        ]
+    },
+    {
+        "qid": "2af8d67b0d05467e2963",
+        "question": "Is sound barrier too much for Audi R8 V-10 Plus to break?",
+        "answer": true,
+        "facts": [
+            "Audi R8 V-10 Plus is the fastest car produced by Audi.",
+            "The Audi R8 V-10 Plus has a top speed of 205 MPH.",
+            "To break the sound barrier, a jet must reach a speed of 770 MPH."
+        ],
+        "decomposition": [
+            "What is the top speed of an Audi R8 V-10 Plus?",
+            "What speed must be obtained to break the sound barrier?",
+            "Is #2 greater than #1?"
+        ]
+    },
+    {
+        "qid": "577dc7d321b43faa3a17",
+        "question": "Does Justin Bieber vote in October?",
+        "answer": true,
+        "facts": [
+            "Justin Bieber is a Canadian citizen",
+            "Canadian elections are held on the third Monday in October"
+        ],
+        "decomposition": [
+            "What country is Justin Bieber a citizen of?",
+            "When does #1 hold its national elections?",
+            "Is #2 October?"
+        ]
+    },
+    {
+        "qid": "65b1fe3cb23fbd0c7bb8",
+        "question": "Is an inappropriate lullaby Love Song from November 11, 2000?",
+        "answer": true,
+        "facts": [
+            "Lullabies are often simple and repetitive.",
+            "Lullabies are used to soothe young children, usually to go to sleep.",
+            "Love Song was a song released by Marilyn Manson on his November 11, 2000 record.",
+            "Marilyn Manson is a heavy metal band.",
+            "The lyrics to Love Song has curse words and scary imagery."
+        ],
+        "decomposition": [
+            "Why are lullabies usually sung?",
+            "What were the features of The Love Song by Marilyn Manson?",
+            "Would #2 be unsuitable to achieve #1?"
+        ]
+    },
+    {
+        "qid": "1c55b56c1480db9f323b",
+        "question": "Is Rand Paul guilty of catch-phrase used to attack John Kerry in 2004?",
+        "answer": true,
+        "facts": [
+            "John Kerry was attacked by his opponents in the 2004 Presidential Campaign by being called a Flip-Flopper.",
+            "A Flip-Flopper is someone that makes a complete change in policy from one thing to another.",
+            "In May 2010 Rand Paul called for an electronic fence to keep out immigrants and deplored amnesty in any form.",
+            "In 2013 Rand Paul said he was in favor of undocumented immigrants being granted  legal status."
+        ],
+        "decomposition": [
+            "What catch-phrase was used against John Kerry in 2004?",
+            "What policy changes has Rand Paul expressed?",
+            "Would #2 be considered #1?"
+        ]
+    },
+    {
+        "qid": "d4f4d22b298fcae3097c",
+        "question": "Gandalf hypothetically defeats Rincewind in a wizard battle?",
+        "answer": true,
+        "facts": [
+            "Gandalf is a 2000 plus year old wizard that has fought orcs and spirits in Middle Earth.",
+            "Rincewind is the protagonist of the Discworld series.",
+            "Rincewind is a failed student at the Unseen University for wizards in Ankh-Morpork.",
+            "Rincewind is described by other wizards as the magical equivalent to the number zero."
+        ],
+        "decomposition": [
+            "How powerful is Gandalf as portrayed in LOTR?",
+            "How powerful is Rincewind as portrayed at the Unseen University for wizards?",
+            "Does #1 include far more experience and accomplishments than #2?"
+        ]
+    },
+    {
+        "qid": "ae0df71d989593b1a244",
+        "question": "Would a week be enough time to watch every episode of Ugly Betty?",
+        "answer": true,
+        "facts": [
+            "There are 168 hours in a week.",
+            "The entire Ugly Betty series is 85 hours long."
+        ],
+        "decomposition": [
+            "How many hours are in a week?",
+            "How long is the entire Ugly Betty series?",
+            "Is #1 greater than or equal to #2?"
+        ]
+    },
+    {
+        "qid": "0595b6ac43aa2268fac9",
+        "question": "Is basil safe from Hypervitaminosis D?",
+        "answer": true,
+        "facts": [
+            "Hypervitaminosis D is a rare disease caused by having too much vitamin D.",
+            "Basil contains many vitamins including Vitamin A, B, C, E, and K."
+        ],
+        "decomposition": [
+            "Hypervitaminosis D is caused by eating too much of what vitamin?",
+            "Does basil contain #1?",
+            "Is it safe to avoid #1 by eating #2?"
+        ]
+    },
+    {
+        "qid": "0730ab9f6cb042ccae7b",
+        "question": "Would Janet Jackson avoid a dish with ham?",
+        "answer": true,
+        "facts": [
+            "Janet Jackson follows an Islamic practice. ",
+            "Islamic culture avoids eating pork.",
+            "Ham is made from pork."
+        ],
+        "decomposition": [
+            "What is Janet Jackson's religion?",
+            "Which foods are prohibited by #1?",
+            "What type of food is ham?",
+            "Is #3 included in #2?"
+        ]
+    },
+    {
+        "qid": "6086a7a06a13a19682af",
+        "question": "Would Cardi B. benefit from soy milk?",
+        "answer": true,
+        "facts": [
+            "Cardi B became lactose intolerant in her early twenties.",
+            "People who are lactose intolerant cannot have dairy.",
+            "Soy milk is an alternative to dairy milk."
+        ],
+        "decomposition": [
+            "What food intolerance does Cardi B. suffer from?",
+            "What must people with #1 avoid?",
+            "Is soy milk free from #2?"
+        ]
+    },
+    {
+        "qid": "6d11e77434ae0cd418d8",
+        "question": "Do sun bears stay active during winter?",
+        "answer": true,
+        "facts": [
+            "The sun bear is a species in the family Ursidae occurring in the tropical forests of Southeast Asia.",
+            " Sun bears do not seem to hibernate.",
+            "Hibernation is a seasonal heterothermy characterized by low body-temperature, slow breathing and heart-rate, and low metabolic rate. It most commonly occurs during winter months."
+        ],
+        "decomposition": [
+            "What characterizes the state of hibernation that some animals go into during winter?",
+            "Are sun bears known to not exhibit the behavior described by #1?"
+        ]
+    },
+    {
+        "qid": "a6a9efa56b587c1b586c",
+        "question": "Does Ronda Rousey avoid BBQ restaraunts?",
+        "answer": true,
+        "facts": [
+            "Ronda Rousey is a professional athlete in MMA.",
+            "Ronda Rousey is a vegan.",
+            "BBQ is a style of restaurant that predominantly serves cooked meat.",
+            "Meat consumption is opposed and avoided by vegans.",
+            "Vegans don't eat meat."
+        ],
+        "decomposition": [
+            "What kind of food is served at BBQ restaurants?",
+            "What dietary restrictions does Ronda Rousey follow?",
+            "Would #2 avoid #1?"
+        ]
+    },
+    {
+        "qid": "64253dd8d8bcca944516",
+        "question": "Is Anakin Skywalker from Star Wars associated with the color black?",
+        "answer": true,
+        "facts": [
+            "As a Jedi during the Clone Wars, Anakin Skywalker often wore black robes.",
+            "After he was burned and transformed into the cyborg Darth Vader, he received a distinctive and famous all-black outfit including a black mask."
+        ],
+        "decomposition": [
+            "What is the color of most outfits worn by Star Wars' Anakin Skywalker?",
+            "Is #1 the same as black?"
+        ]
+    },
+    {
+        "qid": "8703c535b9454f6d0d0a",
+        "question": "Would the Titanic be well preserved at the bottom of the Gulf of Finland?",
+        "answer": true,
+        "facts": [
+            "The bottom of the gulf is one of the world's largest ship cemeteries. Because of the low salinity and cold waters, and no shipworms, the ships are relatively well preserved.",
+            "RMS Titanic was a British passenger ship."
+        ],
+        "decomposition": [
+            "Are ships well-preserved in the Gulf of Finland?",
+            "Was the RMS Titanic a ship?",
+            "Is both #1 and #2 \"yes\""
+        ]
+    },
+    {
+        "qid": "2f484b8eddb4e08f1f4e",
+        "question": "Is the referee at a soccer match highly visible against the field?",
+        "answer": true,
+        "facts": [
+            "Referees uniforms for soccer matches are usually bright neon colors.",
+            "An alternative referee uniform color is black and white stripes."
+        ],
+        "decomposition": [
+            "What are the typically colors of a referee's uniform?",
+            "Is #1 easy to see from afar?"
+        ]
+    },
+    {
+        "qid": "078f8b6b508dced28cc0",
+        "question": "Was milliner in Alice in Wonderland (1951 film) likely in need of succimer?",
+        "answer": true,
+        "facts": [
+            "A milliner is someone who makes hats.",
+            "The character of the Mad Hatter was a milliner in the 1951 Alice in Wonderland film.",
+            "The phrase, Mad as a Hatter, comes from the fact that hat makers used mercury to line their hats and often suffered mercury poisoning.",
+            "Succimer is a chemical that is used to treat lead, mercury, and arsenic poisoning."
+        ],
+        "decomposition": [
+            "What does a milliner do?",
+            "Which Alice in Wonderland (1951 film) character did #1?",
+            "Which element did #2 use for work that could be harmful to their mental health?",
+            "Is succimer useful for treatment of the effects of #3?"
+        ]
+    },
+    {
+        "qid": "b2b094303f7899b65336",
+        "question": "If your skin was turning the color of a zombie, could it be because of nickel?",
+        "answer": true,
+        "facts": [
+            "Zombies are often depicted as green in pallor. ",
+            "Nickel in jewelry often turns skin a greenish color."
+        ],
+        "decomposition": [
+            "What color skin are zombies typically depicted with?",
+            "Does Nickel turn a person's skin #1?"
+        ]
+    },
+    {
+        "qid": "850d4bf8f05ca174a7ef",
+        "question": "Could the Pope be on an episode of Pimp My Ride?",
+        "answer": true,
+        "facts": [
+            "Pimp My Ride is a show where people's cars are upgraded and improved",
+            "The Pope has a personal vehicle called the Popemobile"
+        ],
+        "decomposition": [
+            "In the show Pimp My Ride, what type of vehicles are upgraded and improved?",
+            "Does the Pope have #1?"
+        ]
+    },
+    {
+        "qid": "a6191318469ed26eff27",
+        "question": "Can shooting bald eagle get a person more prison time than Michael Vick?",
+        "answer": true,
+        "facts": [
+            "Michael Vick spent 21 months in prison for an illegal dog fighting ring.",
+            "Shooting a bald eagle carries a penalty of up to two years in prison for a second conviction."
+        ],
+        "decomposition": [
+            "How long of a penalty is it for shooting a bald eagle?",
+            "How many months did Michael Vick serve in prison?",
+            "Is #1 longer than #2?"
+        ]
+    },
+    {
+        "qid": "81f0d1ab3abc0aefe7fe",
+        "question": "Were Greeks essential to crafting Egyptian Lighthouse of Alexandria?",
+        "answer": true,
+        "facts": [
+            "The Lighthouse of Alexandria was an impressive monument in Egypt.",
+            "The Lighthouse of Alexandria was built by pharaoh Ptolemy II.",
+            "Ptolemy II was the son of Ptolemy I Soter.",
+            "Ptolemy I Soter was a Greek bodyguard of Alexander the Great and became pharaoh of Egypt."
+        ],
+        "decomposition": [
+            "Who built the Lighthouse of Alexandria?",
+            "Who was #1's father?",
+            "Was #2 Greek?"
+        ]
+    },
+    {
+        "qid": "2dde8ff78940b702bec3",
+        "question": "At midnight in Times Square on New Years Eve, are you likely to meet people in diapers?",
+        "answer": true,
+        "facts": [
+            "Times Square holds an enormous gathering on New Year's Eve.",
+            "There are no portable restrooms in Times Square.",
+            "People begin waiting for the midnight event in Times Square before 10 a.m."
+        ],
+        "decomposition": [
+            "How early do people arrive to wait for the ball to drop on New Years Eve?",
+            "When does the ball drop?",
+            "How much time is between #1 and #2?",
+            "Within #3 hours, would someone need to use the bathroom?"
+        ]
+    },
+    {
+        "qid": "ffa272e19803c85cb4bf",
+        "question": "Would Matt Damon be afraid of parachuting?",
+        "answer": true,
+        "facts": [
+            "Parachuting involves jumping from high places or airplanes.",
+            "Matt Damon is afraid of heights. "
+        ],
+        "decomposition": [
+            "What is Matt Damon afraid of?",
+            "Does parachuting involve #1?"
+        ]
+    },
+    {
+        "qid": "c7b0c9e6f66524cf0ab8",
+        "question": "Are goldfish more difficult to care for than isopods?",
+        "answer": true,
+        "facts": [
+            "Isopod care is compared to that of a houseplant.",
+            "Goldfish are notorious for making their tanks dirty quite often."
+        ],
+        "decomposition": [
+            "What is isopod care comparable to?",
+            "What challenges do Goldfish pose to keepers?",
+            "Is #1 easier to deal with than #2?"
+        ]
+    },
+    {
+        "qid": "e0e284b873700b715698",
+        "question": "Would a hypothetical Yeti be towered over by Andre the Giant?",
+        "answer": true,
+        "facts": [
+            "The mythical Yeti is said to be between 200 and 400 pounds.",
+            "The mythical Yeti is said to be around 6 feet tall.",
+            "Andre the Giant was an imposing 7'4\" and 529 pounds."
+        ],
+        "decomposition": [
+            "How tall was Andre the Giant?",
+            "How tall are Yeti thought to be?",
+            "Is #2 greater than #1?"
+        ]
+    },
+    {
+        "qid": "2c8492afccd96813b673",
+        "question": "Would a triples tandem bike support Apollo 15 crew?",
+        "answer": true,
+        "facts": [
+            "A tandem bike has seats for more than one rider.",
+            "A triples tandem bike has three seats and can support three riders.",
+            "The crew of Apollo 15 consisted of three people."
+        ],
+        "decomposition": [
+            "How many people were on the Apollo 15 mission?",
+            "How many people can ride a triple tandem bike?",
+            "Is #2 at least #1?"
+        ]
+    },
+    {
+        "qid": "9361ab063d02ec7f1c83",
+        "question": "Did the population of the Warsaw Ghetto record secret police on cell phones?",
+        "answer": false,
+        "facts": [
+            "The Warsaw Ghetto existed during the second world war.",
+            "Cell phones with video recording capability did not exist until the 2000s."
+        ],
+        "decomposition": [
+            "When was the Warsaw Ghetto in existence?",
+            "When was the first cell phone capable of recording developed?",
+            "Is #2 before the end of #1?"
+        ]
+    },
+    {
+        "qid": "9f4a0cc7c58f3bd3a1e9",
+        "question": "Are goats found on abyssal plains?",
+        "answer": false,
+        "facts": [
+            "An abyssal plain is typically located between 10,000 and 20,000 feet below the surface of the ocean",
+            "A goat is a mammal that lives on land and cannot intake oxygen from underwater environments"
+        ],
+        "decomposition": [
+            "What things do goats need to live?",
+            "Where are abyssal plains located?",
+            "Is everything in #1 also found in #2?"
+        ]
+    },
+    {
+        "qid": "19ccb88d92c668ff7576",
+        "question": "Are sesame seeds glued onto hamburger buns?",
+        "answer": false,
+        "facts": [
+            "Glue is toxic and not used in food production.",
+            "Sesame seeds add texture and visual appeal to hamburger buns.",
+            "Beaten eggwhites are often used to adhere foods to other foods. "
+        ],
+        "decomposition": [
+            "What do people usually do with hamburger buns?",
+            "Can you #1 sesame seeds?"
+        ]
+    },
+    {
+        "qid": "9889be1602496d2c14a5",
+        "question": "Was the father of social security system serving in the white house during the Panic of 1907?",
+        "answer": false,
+        "facts": [
+            "The father of social security system is Franklin D. Roosevelt. ",
+            "Franklin D. Roosevelt was in Columbia Law School in 1907. "
+        ],
+        "decomposition": [
+            "Who is the father of the social security system?",
+            "What position serves in the White House?",
+            "When did #1 serve as #2?",
+            "Is 1907 in the range of #3?"
+        ]
+    },
+    {
+        "qid": "e388b5ecaf846e34ab24",
+        "question": "Is it possible for biologist Rachel Carson to have flown to the moon?",
+        "answer": false,
+        "facts": [
+            "Rachel Carlson died in 1964",
+            "The first humans landed on the moon in 1969"
+        ],
+        "decomposition": [
+            "When did Rachel Carson die?",
+            "When did humans first land on the moon?",
+            "Is #2 before #1?"
+        ]
+    },
+    {
+        "qid": "065565731aee70d0249f",
+        "question": "Did Charlemagne have a bar mitzvah?",
+        "answer": false,
+        "facts": [
+            "Charlemagne was a Roman Catholic",
+            "Bar mitzvah is a coming of age ceremony in Judaism"
+        ],
+        "decomposition": [
+            "What was Charlemagne's religion?",
+            "In what religion is a bar mitzvah celebrated?",
+            "Is #1 the same as #2?"
+        ]
+    },
+    {
+        "qid": "ecfc14afb69cd0ab0232",
+        "question": "Can the Powerpuff Girls form a complete tag team wrestling match?",
+        "answer": false,
+        "facts": [
+            "A tag team wrestling match is contested between at least two teams of at least two wrestlers each",
+            "There are only three people in the Powerpuff Girls"
+        ],
+        "decomposition": [
+            "What is the minimum number of people that can participate in a tag team match in professional wrestling?",
+            "The Powerpuff girls are how many in number?",
+            "Is #2 greater than or equal to #1?"
+        ]
+    },
+    {
+        "qid": "1329c142f928bfb2ee1e",
+        "question": "Can someone with dermatitis be a hand model?",
+        "answer": false,
+        "facts": [
+            "Dermatitis causes rashes, redness, blisters, cracking of the skin, and scarring. ",
+            "Hand models tend to have flawless skin and hands."
+        ],
+        "decomposition": [
+            "What does dermatitis cauas a person's skin to look like?",
+            "What must a hand model's skin look like?",
+            "Is #1 the same as #2?"
+        ]
+    },
+    {
+        "qid": "8a9ce0253034964b99ad",
+        "question": "Could a delicious recipe be made with The Onion?",
+        "answer": false,
+        "facts": [
+            "Despite its name, The Onion is not a food, but rather an organization.",
+            "It is not possible to eat a business organization."
+        ],
+        "decomposition": [
+            "What is The Onion?",
+            "Is #1 an item you can eat?"
+        ]
+    },
+    {
+        "qid": "2158d41bc3da221e9ee0",
+        "question": "Does New York Harbor sit on a craton without volcanic activity?",
+        "answer": false,
+        "facts": [
+            "New York Harbor is located on Laurentia craton. ",
+            "The southwestern portion of Laurentia contains numerous large volcanic eruptions."
+        ],
+        "decomposition": [
+            "What craton is New York Harbor on?",
+            "Is #1 devoid of volcanic activity?"
+        ]
+    },
+    {
+        "qid": "13147091d12acd2f707b",
+        "question": "Did Jeremy Irons master sweep picking as a child?",
+        "answer": false,
+        "facts": [
+            "Jeremy Irons was the drummer and harmonica player in a four-man school band called the Four Pillars of Wisdom.",
+            "Sweep picking is a guitar playing technique."
+        ],
+        "decomposition": [
+            "What kind of musical instrument involves sweet picking?",
+            "What musical instruments did Jeremy Irons play in the school band Four Pillars of Wisdom?",
+            "Is #1 included in #2?"
+        ]
+    },
+    {
+        "qid": "9b5249e314f785a34749",
+        "question": "Are LinkedIn and LeafedIn related companies?",
+        "answer": false,
+        "facts": [
+            "LinkedIn successfully sued LeafedIn for their choice of name.",
+            "LeafedIn changed their company name to LeafedOut"
+        ],
+        "decomposition": [
+            "Who owns LinkedIn?",
+            "Who owns LeafedIn?",
+            "IS #1 the same as #2?"
+        ]
+    },
+    {
+        "qid": "2f742aa96a9ac1d5d7e8",
+        "question": "Did Richard III know his grandson?",
+        "answer": false,
+        "facts": [
+            "Richard III died in battle at age 32.",
+            "He had only one son, who died during childhood, and therefore had no grandchildren.",
+            "Even if he did have grandchildren, he would have been dead long before they were born based on his age at death."
+        ],
+        "decomposition": [
+            "Did Richard III have any grandchildren?"
+        ]
+    },
+    {
+        "qid": "7589d5c75bf43bd78534",
+        "question": "Would Felicity Huffman vote for Mike DeWine?",
+        "answer": false,
+        "facts": [
+            "Mike DeWine is Governor of Ohio",
+            "Felicity Huffman is a resident of California"
+        ],
+        "decomposition": [
+            "What elected office is held by Mike DeWine?",
+            "What state is Mike DeWine #1 of?",
+            "What state does Felicity Huffman live in?",
+            "Are #2 and #3 the same state?"
+        ]
+    },
+    {
+        "qid": "bf5615183cdadb73585d",
+        "question": "Is Hanuman associated with a Norse god?",
+        "answer": false,
+        "facts": [
+            "Hanuman is a companion of the god Rama.",
+            "Rama is an avatar of the god Vishnu in Hindu mythology."
+        ],
+        "decomposition": [
+            "Which god is Hanuman associated with?",
+            "Is #1 in Norse mythology?"
+        ]
+    },
+    {
+        "qid": "dde20a113a29e2443ab0",
+        "question": "Did John Lennon listen to Compact discs?",
+        "answer": false,
+        "facts": [
+            "The Compact disc was released in 1982 by Philips and Sony.",
+            "John Lennon was killed on December 8, 1980."
+        ],
+        "decomposition": [
+            "When were Compact Discs first available for use?",
+            "When did John Lennon die?",
+            "Is #1 before #2?"
+        ]
+    },
+    {
+        "qid": "0f0d41a170d5c678ac42",
+        "question": "Can the largest crustacean stretch out completely on a king-sized mattress?",
+        "answer": false,
+        "facts": [
+            "The largest crustacean is the Japanese spider crab ",
+            "The largest Japanese spider crabs have a leg span of just over 12 feet ",
+            "The longer edge of a king-sized mattress is six feet, eight inches"
+        ],
+        "decomposition": [
+            "What is the largest crustacean?",
+            "How long is the largest #1?",
+            "How long is a king-sized matress?",
+            "Is #2 smaller than #3?"
+        ]
+    },
+    {
+        "qid": "f66f2787ffc98b45b76e",
+        "question": "Does the Eighth Amendment to the United States Constitution protect freedom of speech?",
+        "answer": false,
+        "facts": [
+            "The Eighth Amendment (Amendment VIII) of the United States Constitution prohibits the federal government from imposing excessive bail, excessive fines, or cruel and unusual punishments.",
+            "The First Amendment (Amendment I) to the United States Constitution protects freedom of speech."
+        ],
+        "decomposition": [
+            "What changes were made by the Eighth Amendment to the United States Constitution?",
+            "Is the protection of freedom of speech among #1?"
+        ]
+    },
+    {
+        "qid": "84a74bd879365dafc965",
+        "question": "Is someone more likely to survive having breast cancer in Japan than in Sweden?",
+        "answer": false,
+        "facts": [
+            "84.70% of people in Japan with breast cancer survive",
+            "86.20% of people in Sweden with breast cancer survive"
+        ],
+        "decomposition": [
+            "What percentage of people survive breast cancer in Japan?",
+            "What percentage of people survive breast cancer in Sweden?",
+            "Is #1 more than #2?"
+        ]
+    },
+    {
+        "qid": "1ff496a10041ced0d430",
+        "question": "Are banana trees used by judges for maintaining order?",
+        "answer": false,
+        "facts": [
+            "A banana tree has seeds that only have one embryonic leaf and is called a monocot.",
+            "Judges use gavels to maintain order in court.",
+            "Gavels are made of hardwood.",
+            "Hardwood comes from dicot trees.",
+            "Oak, maple, and sycamore are dicot trees."
+        ],
+        "decomposition": [
+            "Which instrument do judges use to maintain order in courts?",
+            "What kind of material are #1 made from?",
+            "Which group of trees is #2 obtained from?",
+            "Do banana trees belong to the same group as #3?"
+        ]
+    },
+    {
+        "qid": "649408b7e3690c2d014a",
+        "question": "Did Mickey Mouse appear in a cartoon with Bugs Bunny in 1930?",
+        "answer": false,
+        "facts": [
+            "Bugs Bunny was created in the late 1930s.",
+            "Mickey Mouse was created in 1928.",
+            "Mickey Mouse appears in Disney cartoons.",
+            "Bugs Bunny appears in Warner Bros. cartoons."
+        ],
+        "decomposition": [
+            "When was Bugs Bunny created?",
+            "Is #1 before 1930?"
+        ]
+    },
+    {
+        "qid": "f4b2da9e93d90d7921fc",
+        "question": "Is the Sea of Japan landlocked within Japan?",
+        "answer": false,
+        "facts": [
+            "The sea of Japan touches Japan, Russia and the Koreas",
+            "Japan has no landlocked sea"
+        ],
+        "decomposition": [
+            "Which countries have a shoreline that touches the Sea of Japan?",
+            "Is Japan the only item in #1?"
+        ]
+    },
+    {
+        "qid": "91e556c0664b80bb7048",
+        "question": "Is 2018 Ashland, Oregon population inadequate to be a hypothetical military division?",
+        "answer": false,
+        "facts": [
+            "The 2018 population of Ashland Oregon was 21,263 people.",
+            "The number of soldiers in a military division is between 10,000 and 25,000 people."
+        ],
+        "decomposition": [
+            "What was the population of Ashland, Oregon in 2018?",
+            "How many soldiers are in a military division?",
+            "Is #1 less than the minimum in #2?"
+        ]
+    },
+    {
+        "qid": "5a095e486fb30f1d59f7",
+        "question": "Would fans of Jonathan Larson be unaware of HIV?",
+        "answer": false,
+        "facts": [
+            "Jonathan Larson died of AIDS in 1996.",
+            "Jonathan Larson produced music and plays about HIV, AIDS, and poverty."
+        ],
+        "decomposition": [
+            "What works did Jonathan Larson produce?",
+            "Do all of #1 avoid the topic of HIV?"
+        ]
+    },
+    {
+        "qid": "5be68ad876e646b6e5ce",
+        "question": "Could an ocelot subsist on a single bee hummingbird per day?",
+        "answer": false,
+        "facts": [
+            "An ocelot requires 600\u2013800 grams (21\u201328 oz) of food every day to satisfy its energy requirements.",
+            "Bee hummingbirds are the smallest living birds, with an average weight of around 2-3 grams."
+        ],
+        "decomposition": [
+            "How much food does an ocelot need to live per day?",
+            "How much does a bee hummingbird weigh?",
+            "Is #2 greater than or equal to #1?"
+        ]
+    }
+]
