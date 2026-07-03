@@ -1,5 +1,30 @@
+import re
+
 from consts import ACCUSER_ACTIONS, INTEL_ACTIONS, SUMMARIZER_ACTIONS
 from groq_utils import query_llama
+
+
+def _parse_final_action(response):
+    """Extract the final ACTION/INFO fields from a reasoning-laden response.
+
+    The reasoning agents think out loud before answering, so we take the LAST
+    occurrence of each tag and keep only its first line, ignoring any
+    chain-of-thought text that precedes or follows the final answer block.
+    Returns (action_part, info_part) as stripped strings.
+    """
+    action_idx = response.rfind("ACTION:")
+    info_idx = response.rfind("INFO:")
+    if action_idx != -1 and info_idx != -1 and info_idx > action_idx:
+        action_part = response[action_idx + len("ACTION:"):info_idx]
+        info_part = response[info_idx + len("INFO:"):]
+    else:
+        action_part = ""
+        info_part = response.split("INFO:")[-1]
+
+    action_part = action_part.strip().splitlines()[0].strip() if action_part.strip() else ""
+    info_part = info_part.strip().splitlines()[0].strip() if info_part.strip() else ""
+    return action_part, info_part
+
 
 class Agent:
     def __init__(self, name):
@@ -50,19 +75,39 @@ class IntelAgent(Agent):
 
 
     def take_turn_thought(self, comm_channel, turns_left=None):
-        #######
-        # your code here
-        #
-        # Allow your agent to have internal thought, and generating more tokens before arriving to the final decision.
-        # Do this using your prompts.
-        # Make sure the final output of your thought process is still in the format of (action, action_info), where action is one of the strings in INTEL_ACTIONS,
-        # and action_info is the information needed to perform that action.
-        #
-        # if action is "respond", then action_info should be Yes or No, as an answer to the question being asked
-        # if action is "respond-broad", then action_info should contain a list of all characters that have the requested property.
-        #######
-        raise NotImplementedError
-        pass
+        lines = [l for l in comm_channel.split("\n") if l.strip()]
+        last_message = lines[-1] if lines else comm_channel
+
+        sys_prompt = f"""
+                You are the Intel Agent in a deduction game. You have full access to all suspect data:
+                {self.all_descriptions_string}
+
+                The Accuser asks you questions to identify a hidden culprit. Answer truthfully and
+                precisely, using ONLY the suspect data above.
+
+                There are two kinds of questions:
+                - specific: a Yes/No question about ONE particular suspect
+                  (e.g. "Does Suspect 2 wear a brown hat?"). Use ACTION: respond and put Yes or No in INFO.
+                - broad: asks which suspects have a given trait/attribute
+                  (e.g. "which suspects have blue eyes?"). Use ACTION: respond-broad and put the
+                  comma-separated list of matching suspects in INFO (e.g. "Suspect 1, Suspect 3").
+                  If none match, put "None".
+
+                Think step by step FIRST: identify the question type, find the relevant attribute,
+                and check each suspect against it. You may write out this reasoning.
+                Then, on the LAST two lines, output EXACTLY this format and nothing after it:
+                ACTION: respond OR respond-broad
+                INFO: <Yes/No for specific, or the comma-separated suspect list for broad>
+                """
+        prompt = f"""
+                Question to answer:
+                {last_message}
+                """
+        response = query_llama(prompt, sys_prompt=sys_prompt, temperature=0.3, max_tokens=1024)
+
+        action_part, action_info = _parse_final_action(response)
+        action = "respond-broad" if "broad" in action_part.lower() else "respond"
+        return action, action_info
 
 
     def take_turn(self, comm_channel, turns_left=None):
@@ -116,28 +161,59 @@ class AccuserAgent(Agent):
 
 
     def take_turn_thought(self, comm_channel, turns_left=None):
-        #######
-        # your code here
-        #
-        # Allow your agent to have internal thought, and generating more tokens before arriving to the final decision.
-        # Do this using your prompts.
+        turns_str = f"You have {turns_left} turns left." if turns_left is not None else ""
+        sys_prompt = f"""
+                You are the Accuser in a deduction game with {self.suspect_count} suspects,
+                numbered "Suspect 1" ... "Suspect {self.suspect_count}".
+                The culprit matches this description:
+                {self.culprit_description}
 
-        # Make sure the final output of your thought process is still in the format of (action, action_info), where action is one of the strings in ACCUSER_ACTIONS,
-        # and action_info is the information needed to perform that action.
-        #
-        # if action is "request-specific", then action_info should be the specific question being asked
-        # if action is "request-broad", then action_info should be the attribute being asked about (e.g. "hat")
-        # if action is "accuse", then action_info should be the suspect being accused (e.g. "Suspect 1")
+                You do NOT see the suspects' descriptions. Your ONLY way to gather information is by
+                asking the Intel Agent. {turns_str} You lose if you run out of turns, so be efficient
+                and accuse as soon as exactly one suspect can match the culprit.
 
-        # return action_name, action_info
-        #######
-        raise NotImplementedError
-        pass
+                Reason step by step before acting:
+                1. List the culprit's key attributes from the description above.
+                2. Go through the game history and, for EACH suspect, track which culprit attributes
+                   are confirmed or ruled out. Maintain the set of suspects still consistent with ALL
+                   the evidence gathered so far.
+                3. Decide:
+                   - If exactly ONE suspect is still consistent with every known culprit attribute, ACCUSE it.
+                   - Otherwise, ask the SINGLE most informative next question. Prefer a request-broad
+                     that splits the remaining candidates, and never repeat a question already asked.
+
+                Your actions:
+                - request-specific: a Yes/No question about a trait of ONE specific suspect.
+                - request-broad: ask which suspects have a certain attribute value (e.g. "brown hat").
+                - accuse: name the suspect you are certain is the culprit.
+
+                Write out your reasoning first. Then, on the LAST two lines, output EXACTLY this
+                format and nothing after it:
+                ACTION: request-specific OR request-broad OR accuse
+                INFO: <the question text for request-*, OR "Suspect N" for accuse>
+                """
+        prompt = f"""
+                Game history so far:
+                {comm_channel if comm_channel.strip() else "(empty - no questions have been asked yet)"}
+                """
+        response = query_llama(prompt, sys_prompt=sys_prompt, temperature=0.3, max_tokens=1024)
+
+        action_part, action_info = _parse_final_action(response)
+        low = action_part.lower()
+        if "accuse" in low:
+            # Normalize to the exact "Suspect N" format Env.test_accusation expects.
+            match = re.search(r"\d+", action_info)
+            accusation = f"Suspect {match.group()}" if match else action_info
+            return "accuse", accusation
+        elif "broad" in low:
+            return "request-broad", action_info
+        else:
+            return "request-specific", action_info
 
 
     def take_turn(self, comm_channel, turns_left=None):
         if self.allow_internal_thought:
-            return self.take_turn_thought(comm_channel, turns_left=None)
+            return self.take_turn_thought(comm_channel, turns_left)
         return self.take_turn_naive(comm_channel)
 
 class SummerizerAgent(Agent):
