@@ -192,20 +192,25 @@ suspects. All configurations were \textbf{solved correctly}:
   \item \textbf{12 suspects} (36 turns): accused Suspect~1 correctly. The intersection
   collapsed to \{S1\} after \emph{4} questions, yet the Accuser asked \emph{10} before
   accusing.
+  \item \textbf{16 suspects} (48 turns): accused Suspect~8 correctly. The intersection was
+  \{S8\} after \emph{5} questions, but the Accuser asked \emph{8} (one of which showed
+  chain-of-thought text leaking into the \texttt{INFO} field; the stray answer was ignored
+  and the next turn accused correctly).
 \end{itemize}
-So the agents' reasoning reliably scales to \textbf{at least 12 suspects} (the largest we
+So the agents' reasoning reliably scales to \textbf{at least 16 suspects} (the largest we
 tested) given a turn limit of $\approx 3\times$ the suspect count.
 
 \paragraph{Factors that limit scaling.} (1)~\textbf{Over-verification} is the dominant
-inefficiency: the Accuser asks far more questions than needed to reach a singleton (7 vs 2
-at $N{=}8$; 10 vs 4 at $N{=}12$). This is harmless when turns are plentiful but is precisely
-what causes timeouts under a tight limit --- so the required turn budget, not correctness,
-is the practical ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-token
-thoughts plus an Intel prompt that grows with $N$) is token-expensive; on an earlier run the
-same $N{=}8$/$N{=}12$ games exhausted the Groq free-tier \textbf{daily token cap}
+inefficiency: the Accuser consistently asks several more questions than needed to reach a
+singleton (needed vs.\ asked was 2 vs.\ 7 at $N{=}8$, 4 vs.\ 10 at $N{=}12$, 5 vs.\ 8 at
+$N{=}16$). This is harmless when turns are plentiful but is precisely what causes timeouts
+under a tight limit --- so the required turn budget, not correctness, is the practical
+ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-token thoughts plus an Intel
+prompt that grows with $N$) is token-expensive; on an earlier run the same
+$N{=}8$/$N{=}12$ games exhausted the Groq free-tier \textbf{daily token cap}
 (\texttt{tokens per day: Limit 100000}) mid-game, so throughput --- how many/how large games
 per day --- is bounded by the budget even though a single game succeeds. (3)~\textbf{Intel
-accuracy at scale:} with 12 descriptions to scan per broad question there is more room for a
+accuracy at scale:} with 16 descriptions to scan per broad question there is more room for a
 missed or misclassified suspect, which would corrupt the intersection.
 
 \subsection*{Propose three modifications that could further enhance agent performance and
@@ -250,5 +255,9 @@ improve the overall success rate of the system.}
 \section{Reasoning-agent scaling: 12 suspects}
 \label{app:scale12}
 \lstinputlisting[style=gamelog]{logs/scale12_game_log.txt}
+
+\section{Reasoning-agent scaling: 16 suspects}
+\label{app:scale16}
+\lstinputlisting[style=gamelog]{logs/scale16_game_log.txt}
 
 \end{document}
