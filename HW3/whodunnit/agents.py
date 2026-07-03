@@ -4,13 +4,37 @@ from consts import ACCUSER_ACTIONS, INTEL_ACTIONS, SUMMARIZER_ACTIONS
 from groq_utils import query_llama
 
 
+def _clean_info_field(info_part):
+    """Collapse the INFO field to a single line while preserving multi-line lists.
+
+    A broad answer may wrap its suspect list over several lines
+    (e.g. "Suspect 1,\nSuspect 3"); taking only the first line would silently
+    drop candidates and corrupt the Accuser's running intersection. So when the
+    answer is a suspect list we join every consecutive suspect-mentioning line
+    and stop before any trailing reasoning prose. Yes/No/None answers are
+    single-line and pass through unchanged.
+    """
+    lines = [l.strip() for l in info_part.strip().splitlines() if l.strip()]
+    if not lines:
+        return ""
+    if "suspect" not in lines[0].lower():
+        return lines[0]
+    list_lines = []
+    for line in lines:
+        if "suspect" not in line.lower():
+            break
+        list_lines.append(line)
+    return " ".join(list_lines)
+
+
 def _parse_final_action(response):
     """Extract the final ACTION/INFO fields from a reasoning-laden response.
 
     The reasoning agents think out loud before answering, so we take the LAST
-    occurrence of each tag and keep only its first line, ignoring any
-    chain-of-thought text that precedes or follows the final answer block.
-    Returns (action_part, info_part) as stripped strings.
+    occurrence of each tag, ignoring any chain-of-thought text that precedes or
+    follows the final answer block. The ACTION tag is a single keyword (first
+    line only); the INFO field is cleaned via ``_clean_info_field`` so wrapped
+    broad lists survive. Returns (action_part, info_part) as stripped strings.
     """
     action_idx = response.rfind("ACTION:")
     info_idx = response.rfind("INFO:")
@@ -22,7 +46,7 @@ def _parse_final_action(response):
         info_part = response.split("INFO:")[-1]
 
     action_part = action_part.strip().splitlines()[0].strip() if action_part.strip() else ""
-    info_part = info_part.strip().splitlines()[0].strip() if info_part.strip() else ""
+    info_part = _clean_info_field(info_part)
     return action_part, info_part
 
 
@@ -202,9 +226,12 @@ class AccuserAgent(Agent):
         low = action_part.lower()
         if "accuse" in low:
             # Normalize to the exact "Suspect N" format Env.test_accusation expects.
+            # If the model named no suspect number in INFO, fall back to a question
+            # rather than passing un-parseable text that would crash test_accusation.
             match = re.search(r"\d+", action_info)
-            accusation = f"Suspect {match.group()}" if match else action_info
-            return "accuse", accusation
+            if match:
+                return "accuse", f"Suspect {match.group()}"
+            return "request-broad", action_info if action_info else "any distinguishing trait"
         elif "broad" in low:
             return "request-broad", action_info
         else:
@@ -250,6 +277,11 @@ class SummerizerAgent(Agent):
                 {comm_channel}
                 """
         summary = query_llama(prompt, sys_prompt=sys_prompt, temperature=0.2, max_tokens=1024)
+        # query_llama swallows API failures into an "Error: ..." string. Overwriting
+        # the channel with that would erase every clue gathered so far, so on a failed
+        # or empty rewrite we keep the original channel untouched.
+        if not summary.strip() or summary.strip().startswith("Error:"):
+            return comm_channel
         # Trailing newline keeps the naive Intel's last-message parsing intact after a rewrite.
         return summary.strip() + "\n"
 

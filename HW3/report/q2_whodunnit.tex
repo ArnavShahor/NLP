@@ -93,9 +93,12 @@ The decisive clues were generally \emph{kept}, but the summarizer distorted evid
 \texttt{circular eye glasses $\rightarrow$ Suspect 1, Suspect 2, Suspect 3}, yet Charlie
 rewrote this as ``Suspect~1: \emph{possibly} has circular eye glasses'' (and likewise for
 S2, S3), downgrading a confirmed fact to an uncertain one. This ambiguity plausibly caused
-Alex to redundantly re-ask both ``blue eye color'' and ``circular eye glasses,'' exhausting
-its turns without accusing --- even though the culprit-identifying clue (only Suspect~3 has
-blue eyes) had actually been preserved.
+Alex to redundantly re-ask ``circular eye glasses.'' Alex \emph{also} re-asked ``blue eye
+color,'' but that clue was \emph{not} downgraded (the summary Alex saw still read
+``Suspect~3: has blue eye color''), so this second repeat is better explained by the loss of
+the verbatim Q\&A record --- the per-suspect summary dropped Alex's memory of which questions
+it had already asked. Either way Alex exhausted its turns without accusing --- even though
+the culprit-identifying clue (only Suspect~3 has blue eyes) had actually been preserved.
 
 \subsection*{Did the reduction in context length result in more coherent questions responses
 from the Accuser and Intel agents, or did the loss of ``raw'' dialogue history make their
@@ -129,17 +132,19 @@ We implemented \texttt{take\_turn\_thought} for both the Intel and the Accuser
 (\texttt{python run\_game.py --allow-internal-thought}). Each agent may now reason freely,
 but still emits the environment's required final \texttt{ACTION}/\texttt{INFO} block. Logs
 for 3 suspects are in Appendix~\ref{app:thought}; the scaling runs in
-Appendices~\ref{app:scale5}--\ref{app:scale8}.
+Appendices~\ref{app:scale5}--\ref{app:scale20}.
 
 \subsection*{Detail your architectural decisions regarding prompt engineering. What specific
 intermediate reasoning steps did you introduce to guide the agents, and what did you want
 each agent to analyze internally before generating its environment-compliant response?}
 
 To keep chain-of-thought compatible with the environment's schema, we parse only the
-\emph{last} \texttt{ACTION}/\texttt{INFO} block (helper \texttt{\_parse\_final\_action},
-first line of each tag), so reasoning never leaks into the action, and we regex-normalize
-any accusation to \texttt{"Suspect N"} so \texttt{Env.test\_accusation} cannot crash on
-verbose output.
+\emph{last} \texttt{ACTION}/\texttt{INFO} block (helper \texttt{\_parse\_final\_action}:
+the \texttt{ACTION} keyword is read from its first line, while the \texttt{INFO} field keeps
+every consecutive suspect-listing line so a broad answer wrapped over several lines is not
+truncated), so reasoning never leaks into the action, and we regex-normalize
+any accusation to \texttt{"Suspect N"} (falling back to another question when no suspect
+number is given) so \texttt{Env.test\_accusation} cannot crash on verbose output.
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
   \item \textbf{Intel} --- internal steps: (1)~classify the question as \emph{specific}
   (Yes/No) or \emph{broad}; (2)~identify the relevant attribute; (3)~check each suspect
@@ -162,7 +167,10 @@ Yes, clearly, on all three axes:
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
   \item \textbf{Action-space utilization:} the Accuser now actually reaches \texttt{accuse}
   and mixes \texttt{request-broad}/\texttt{request-specific}; the terminal action is no
-  longer neglected, and Intel exercised both \texttt{respond} and \texttt{respond-broad}.
+  longer neglected. Intel likewise exercised both actions: \texttt{respond-broad} throughout
+  the 3-suspect runs and \texttt{respond} (Yes/No) in the scaling runs (e.g.\
+  \texttt{Does Suspect 3 have blue eyes?}$\to$\emph{Yes} at $N{=}5$, and
+  \texttt{Does Suspect 8 have a bronze watch?}$\to$\emph{Yes} at $N{=}16$).
   \item \textbf{Coordination:} Intel's lists are accurate and the Accuser \emph{consumes}
   them by intersecting --- e.g.\ Game~1 (\texttt{black hat}$\to$\{S3\},
   \texttt{square glasses}$\to$\{S3\}) and Game~3
@@ -177,7 +185,9 @@ the suspect count and determine the maximum your agents can process (subject to 
 limit and API rate restrictions); analyze the factors that contribute to failure at scale.}
 
 \paragraph{Residual failure.} In one 3-suspect game (Game~2) the intersection was already
-\{S3\} after four broad answers, yet the Accuser asked a redundant specific question and
+\{S3\} after just \emph{two} broad answers
+(\texttt{black hat}$\to$\{S1,S3\} $\cap$ \texttt{brown eyes}$\to$\{S2,S3\} $=$ \{S3\}), yet
+the Accuser asked three more broad questions and then a redundant specific question, and
 timed out. This is a symptom of \emph{over-verification} (see below): the model reaches the
 answer but keeps asking, and with only $\approx$6 Accuser moves at the 11-turn limit, one or
 two wasted questions cause a timeout.
