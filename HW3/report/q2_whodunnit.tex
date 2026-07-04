@@ -196,14 +196,14 @@ improve the overall success rate of the system.}
   remains; let the LLM only \emph{choose questions}. This removes reliance on the model's
   mental set-intersection and directly eliminates the over-verification that causes
   timeouts.
-  \item \textbf{Information-maximizing, de-duplicated questions.} Instruct the Accuser to
+  \item \textbf{Information-maximizing questions.} Instruct the Accuser to
   pick the attribute whose answer most evenly splits the remaining candidates
-  (binary-search/entropy style) and forbid repeating any prior question --- fewer turns
-  needed, so larger pools fit under the turn limit.
-  \item \textbf{Token-budget efficiency.} Cap reasoning length, use the small model for the
-  narrowing questions and the 70B model only for the final accusation, and add a
-  \texttt{time.sleep}/backoff-and-retry on 429 --- so larger suspect pools fit within the
-  daily and per-minute limits.
+  (binary-search/entropy style) --- fewer turns needed, so larger pools fit under the turn
+  limit.
+  \item \textbf{Compound (multi-attribute) questions.} Extend the action space so the Accuser
+  can ask for several attributes at once (e.g.\ ``which suspects wear glasses \emph{and} have
+  blue eyes?''), letting the Intel agent return the intersection directly. This eliminates
+  more candidates per turn and cuts the number of questions needed to reach a singleton.
 \end{enumerate}
 
 \end{document}
