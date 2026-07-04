@@ -119,25 +119,21 @@ but still emits the environment's required final \texttt{ACTION}/\texttt{INFO} b
 intermediate reasoning steps did you introduce to guide the agents, and what did you want
 each agent to analyze internally before generating its environment-compliant response?}
 
-To keep chain-of-thought compatible with the environment's schema, we parse only the
-\emph{last} \texttt{ACTION}/\texttt{INFO} block (helper \texttt{\_parse\_final\_action}:
-the \texttt{ACTION} keyword is read from its first line, while the \texttt{INFO} field keeps
-every consecutive suspect-listing line so a broad answer wrapped over several lines is not
-truncated), so reasoning never leaks into the action, and we regex-normalize
-any accusation to \texttt{"Suspect N"} (falling back to another question when no suspect
-number is given) so \texttt{Env.test\_accusation} cannot crash on verbose output.
+Each agent reasons freely in the prompt but must end with the environment's
+\texttt{ACTION}/\texttt{INFO} block; we read only the \emph{last} such block, and for an
+accusation we extract the suspect number and reformat it to the exact \texttt{"Suspect N"}
+string the environment requires.
+The reasoning steps we asked each agent to perform internally were:
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
-  \item \textbf{Intel} --- internal steps: (1)~classify the question as \emph{specific}
-  (Yes/No) or \emph{broad}; (2)~identify the relevant attribute; (3)~check each suspect
-  against it. Goal: verify per-suspect facts before answering, so broad lists are complete
-  and Yes/No answers are correct.
-  \item \textbf{Accuser} --- internal steps: (1)~extract the culprit's attributes from its
-  description; (2)~for every suspect, mark which culprit attributes are confirmed/excluded
-  and maintain the set of suspects consistent with \emph{all} evidence so far; (3)~accuse
-  iff exactly one candidate remains, otherwise ask the single most-informative
-  (preferably broad) non-repeated question. The intended internal artifact is the
-  \emph{running candidate intersection} --- exactly what the naive agent never computed. We
-  also pass \texttt{turns\_left} so it trades certainty against the clock.
+  \item \textbf{Accuser} --- (1)~extract the culprit's attributes from its description;
+  (2)~for every suspect, mark which attributes are confirmed/excluded and maintain the set of
+  suspects consistent with \emph{all} evidence so far; (3)~accuse iff exactly one candidate
+  remains, otherwise ask the single most-informative, non-repeated question. The intended
+  artifact is the \emph{running candidate intersection} --- exactly what the naive agent
+  never computed --- and we pass \texttt{turns\_left} so it trades certainty against the clock.
+  \item \textbf{Intel} --- (1)~classify the question as \emph{specific} (Yes/No) or
+  \emph{broad}; (2)~identify the relevant attribute; (3)~check each suspect against it, so
+  broad lists are complete and Yes/No answers correct.
 \end{itemize}
 
 \subsection*{Evaluate whether this ``Chain-of-Thought'' mechanism successfully mitigated the
