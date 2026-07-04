@@ -1,0 +1,190 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{NLP Assignment 3}
+\author{Adam Fleisher \and Gal Barak \and Tamar Tabbach}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1: Prompting for Reasoning}
+
+% ============================================================
+\subsection*{1.2.d -- Zero-Shot Accuracies and Model Comparison}
+% ============================================================
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Method} & \textbf{Accuracy} \\
+\midrule
+LLaMA zero-shot (temperature = 0) & 0.68 \\
+GPT-2 zero-shot (temperature = 0) & 0.48 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+LLaMA outperforms GPT-2 by 20 percentage points (0.68 vs.\ 0.48). Three differences that may explain this gap:
+
+\begin{enumerate}
+    \item \textbf{Model scale and training.} LLaMA-3.1-8B is a modern instruction-tuned model trained on large-scale data for general reasoning and QA. GPT-2 (124M parameters for the hugging face version we are loading) is a much smaller, older autoregressive language model trained mainly on next-token prediction without instruction tuning.
+    \item \textbf{Prompting interface.} LLaMA is queried through a chat API with an explicit system prompt instructing the model to answer only \texttt{True} or \texttt{False}. GPT-2 has no system role; the instruction must be embedded in the raw text prompt, which is a weaker way to enforce output format, as we can see in the notebook a lot of these answers are neither correct or incorrect they are completely not in the format and therefore invalid (but marked incorrect).
+    \item \textbf{Task suitability.} StrategyQA requires multi-hop commonsense reasoning. LLaMA was trained on diverse instruction-following and reasoning data, while GPT-2 lacks this specialization and often generates free-form continuations rather than concise boolean answers.
+\end{enumerate}
+
+\newpage
+\subsection*{1.3.b -- Self-Consistency Accuracy (temperature = 1.0)}
+
+Using self-consistency with $n = 5$ samples and temperature $= 1.0$, the accuracy was: \textbf{0.72}
+
+\subsection*{1.3.c -- Temperature Analysis (0, 0.5, 1.0)}
+
+We repeated self-consistency ($n=5$) at three temperature settings:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Temperature} & \textbf{Accuracy} & \textbf{Unanimous votes} & \textbf{Split votes} \\
+\midrule
+0.0  & 0.680 & 50/50 (100\%) & 0/50 (0\%) \\
+0.5  & 0.640 & 40/50 (80\%)  & 10/50 (20\%) \\
+1.0  & 0.640 & 37/50 (74\%)  & 13/50 (26\%) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Vote distributions (selected patterns):}
+\begin{itemize}
+    \item \textbf{Temp = 0:} Only two patterns appeared: \texttt{True:0, False:5} (37 questions) and \texttt{True:5, False:0} (13 questions). Every question had identical votes across all 5 samples. 
+    This is because when temperature is set to 0, the model just takes argmax over its answer distribution making it deterministic, this means that self-consistency is meaningless when temperature is set to 0.
+    
+    \item \textbf{Temp = 0.5:} Here sampling adds randomness, but the distribution stays sharper than at temp 1.0, so high-probability answers are still chosen most of the time — hence mostly 5–0 votes, with occasional splits on uncertain questions.
+    
+    \item \textbf{Temp = 1.0:} Highest diversity: 37/50 questions had split votes.
+\end{itemize}
+
+\textbf{Insights:}
+\begin{itemize}
+    \item \textbf{Temperature vs.\ diversity:} Lower temperature produces nearly deterministic outputs (100\% unanimous at $T=0$). Higher temperature increases output diversity and the frequency of split votes (44\% at $T=1.0$).
+    \item \textbf{Self-consistency benefit:} In our case, since when $T=0$ is equal to no majority voting at all, it seems that self consistency only damaged the results. This of-course does not prove anything since the experiment scope is relatively small and running the same experiments with a larger dataset or with different random seeds might provide different results.
+\end{itemize}
+
+
+\newpage
+\subsection*{1.4.d -- ICL Accuracy ($n = 10$)}
+
+Using in-context learning with $n = 10$ demonstrations (10 random examples from \texttt{demos\_dict}), temperature $= 0$: \textbf{0.60}
+
+\subsubsection*{1.4.e --- ICL Analysis}
+
+We analyzed how demonstration \textbf{quantity}, \textbf{ordering}, and \textbf{similarity} affect accuracy.
+All experiments used temperature $0$ and the same evaluation pipeline as in 1.4.d. \textbf{Important Note:} Since the examples are chosen randomly, rerunning the experiment showed high variance in the results, we chose a representing experiment to base our conclusions on (avaraging over many experiments takes considerable time with our computers).
+
+\paragraph{Quantity of demonstrations.}
+\begin{center}
+\begin{tabular}{lc}
+\hline
+Number of demos ($n$) & Accuracy \\
+\hline
+1  & 0.600 \\
+3  & 0.620 \\
+5  & 0.560 \\
+10 & 0.640 \\
+20 & 0.580 \\
+\hline
+\end{tabular}
+\end{center}
+
+Accuracy was relatively unstable and did not increase monotonically with more demonstrations.
+The best result was $n=10$ (0.64), while $n=20$ dropped to 0.58.
+This suggests that more examples do not automatically help: very long prompts may dilute attention, and additional demos may add noise rather than useful signal. Even though, after running the experiments a few times we did see a relatively constantly that 3-10 examples provided better results then only a single example.
+
+\paragraph{Ordering of demonstrations ($n=10$).}
+To isolate ordering effects, we first sampled one fixed set of 10 demonstrations, then tested three orderings of the \emph{same} demos:
+\begin{center}
+\begin{tabular}{lc}
+\hline
+Ordering & Accuracy \\
+\hline
+Original order  & 0.640 \\
+Reversed order  & 0.680 \\
+Shuffled order  & 0.540 \\
+\hline
+\end{tabular}
+\end{center}
+
+Reversing the demonstrations improved accuracy slightly (0.68), while shuffling hurt (0.54).
+This indicates that order can matter, likely because recent/context-adjacent examples may influence the model more strongly.
+However, the effect is not fully consistent, so ordering alone does not explain ICL performance.
+
+\paragraph{Similarity of demonstrations ($n=10$).}
+We compared:
+(i) 10 random demos per question, and
+(ii) 10 demos selected per question by highest word-overlap similarity (Jaccard similarity over question tokens).
+\begin{center}
+\begin{tabular}{lc}
+\hline
+Demo selection strategy & Accuracy \\
+\hline
+Random 10 demos                   & 0.600 \\
+10 most similar demos per question & 0.540 \\
+\hline
+\end{tabular}
+\end{center}
+
+Similarity-based retrieval did \emph{not} improve performance.
+Simple lexical overlap is a weak proxy for reasoning relevance on StrategyQA, so ``similar-looking'' questions may still teach the wrong reasoning pattern. This result initially surprised us but then we thought about it being some sort of overfitting, questions with overlapping word does not necessarily mean the same answer, especially in yes or no questions...
+
+\paragraph{Summary.}
+In our experiments, ICL gains were limited and sensitive to demo configuration.
+The strongest setting was reversed order with a fixed strong random subset (0.68), matching zero-shot, while random shuffling and similarity-based selection performed worse.
+Overall, ICL only helps when demonstrations are informative and well presented, otherwise it can underperform zero-shot.
+
+\newpage
+\subsection*{1.5.c -- Chain-of-Thought Accuracy}
+Using chain-of-thought prompting with a custom system prompt, temperature $= 0$, and \texttt{max\_tokens = 1024}: \textbf{0.74}
+
+CoT improved accuracy from 0.68 (zero-shot) to 0.74 (+6 points), showing that explicit step-by-step reasoning helps on multi-hop StrategyQA questions.
+
+% ============================================================
+\subsection*{1.6.d -- ICL + CoT Combined Accuracy}
+% ============================================================
+
+Using 1,3 and 5 chain-of-thought demonstrations (with facts and decomposition) plus CoT prompting on the target question we got: \textbf{0.68,0.76,0.68}
+meaning 3 chain of thought demonstration provided the best results.
+
+\subsubsection*{1.6.e --- Method Comparison}
+
+We compared all prompting methods on the 50-question StrategyQA test set using Llama~3.1-8B with temperature $0$:
+
+\begin{center}
+\begin{tabular}{lc}
+\hline
+Method & Accuracy \\
+\hline
+Zero-shot          & 0.68 \\
+ICL ($n=10$)       & 0.60 \\
+CoT                & 0.74 \\
+ICL + CoT ($n=1$)  & 0.68 \\
+ICL + CoT ($n=3$)  & \textbf{0.76} \\
+ICL + CoT ($n=5$)  & 0.68 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Discussion.}
+Plain \textbf{ICL} was the weakest method (0.60), even below zero-shot (0.68): providing only question--answer pairs, without any reasoning, gives the model a pattern to copy but no guidance on \emph{how} to solve multi-hop questions.
+
+Adding reasoning helps: \textbf{CoT} reached 0.74, since letting the model think step by step before answering fits the multi-step nature of StrategyQA.
+
+For \textbf{ICL + CoT} we varied the number of demonstrations. Performance was sensitive to this choice: with $n=1$ or $n=5$ we got 0.68, but with $n=3$ we reached the best overall accuracy of \textbf{0.76}. A small number of examples (question + facts + reasoning steps + answer) seems to teach the model a good reasoning format without overloading the prompt. Too many demonstrations ($n=5$) likely dilute attention on the actual question and add noise, dropping accuracy back to zero-shot level.
+
+\paragraph{Conclusion.}
+Reasoning-based prompting clearly outperforms plain ICL. The best result was \textbf{ICL + CoT with 3 demonstrations (0.76)}, slightly above pure CoT (0.74), suggesting that a few high-quality reasoning demonstrations can further guide the model, but only when the prompt stays short enough to keep the target question in focus. But even though ICL + CoT did provide the best results it seems to be much more sensitive to the input prompt and examples compare to CoT alone and the 2 points increase might not be worth it, therefore one much want to try a much more comprehensive experiment averaging the results over many tries to test this.
+
+\end{document}
