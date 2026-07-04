@@ -20,7 +20,7 @@ no summarizer, no internal thought). \emph{Alex} is the Accuser and \emph{Beth} 
 agent.
 
 \subsection*{What specific behavioral problems did you identify in the initial run of the
-naive agents? Provide at least two concrete examples from your \texttt{game\_log}.}
+naive agents?}
 
 \paragraph{Problem A --- Analysis paralysis: the Accuser will not accuse even when a single
 answer already fixes the culprit.} In \textbf{Game 1} (culprit $=$ Suspect~3) only Suspect~3
@@ -37,8 +37,7 @@ computes this intersection, keeps questioning, and times out. This inability to 
 evidence across turns is the underlying cause of the analysis paralysis in Problem~A.
 
 \subsection*{Do the agents dynamically utilize the full spectrum of their available action
-space, or do they prematurely converge on a single, repetitive action type? Analyze how
-this behavioral pattern affects their overall progress.}
+space, or do they prematurely converge on a single, repetitive action type?}
 
 They \textbf{converge}. Alex issues only \texttt{request-broad} in all three games (zero
 \texttt{request-specific}; \texttt{accuse} only once, in Game~3), which in turn forces Beth
@@ -70,7 +69,7 @@ confirmed/excluded attribute and never invent facts) and ran with the summarizer
 \emph{Charlie}.
 
 \subsection*{Did the summarizer inadvertently remove any critical clues that led to the
-Accuser failing to identify the culprit? Provide a specific example from the logs.}
+Accuser failing to identify the culprit?}
 
 The decisive clues were generally \emph{kept}, but the summarizer distorted evidentiary
 \emph{certainty}. In Game~1 Beth stated definitely that
@@ -98,8 +97,7 @@ questions. So compression helps when the summary is faithful and structured, and
 it introduces ambiguity.
 
 \subsection*{Based on your observations, do you believe this summarization approach would
-scale to a game with a much larger suspect pool (e.g., \texttt{suspect-count=20})? Explain
-your reasoning.}
+scale to a game with a much larger suspect pool (e.g., \texttt{suspect-count=20})?}
 
 Not without changes. (1)~A free-text LLM rewrite is lossy: the ``possibly'' distortion seen
 at 3 suspects will compound at 20, and a single weakened or dropped fact can leave the
