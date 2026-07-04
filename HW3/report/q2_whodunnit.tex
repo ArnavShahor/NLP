@@ -142,19 +142,18 @@ action-space utilization, or overall success rate compared to the naive baseline
 
 Yes, clearly, on all three axes:
 \begin{itemize}[leftmargin=1.4em,itemsep=2pt]
-  \item \textbf{Action-space utilization:} the Accuser now actually reaches \texttt{accuse}
-  and mixes \texttt{request-broad}/\texttt{request-specific}; the terminal action is no
-  longer neglected. Intel likewise exercised both actions: \texttt{respond-broad} throughout
-  the 3-suspect runs and \texttt{respond} (Yes/No) in the scaling runs (e.g.\
-  \texttt{Does Suspect 3 have blue eyes?}$\to$\emph{Yes} at $N{=}5$, and
-  \texttt{Does Suspect 8 have a bronze watch?}$\to$\emph{Yes} at $N{=}16$).
   \item \textbf{Coordination:} Intel's lists are accurate and the Accuser \emph{consumes}
   them by intersecting --- e.g.\ Game~1 (\texttt{black hat}$\to$\{S3\},
   \texttt{square glasses}$\to$\{S3\}) and Game~3
   (\texttt{green eyes}$\to$\{S1,S2\} $\cap$ \texttt{red shoes}$\to$\{S1,S3\} $=$ \{S1\}).
-  \item \textbf{Success rate:} 2/3 solved in the 3-suspect batch (plus a standalone game
-  also solved), versus $\approx$0--1/3 for the naive baseline. The endless-questioning loop
-  is largely fixed.
+  \item \textbf{Action-space utilization:} the Accuser now actually reaches
+  \texttt{accuse} and mixes broad with specific questions; the terminal action is no
+  longer neglected. Intel likewise exercised both actions: \texttt{respond-broad} throughout
+  the 3-suspect runs and \texttt{respond} (Yes/No) in the scaling runs (e.g.\
+  \texttt{Does Suspect 3 have blue eyes?}$\to$\emph{Yes} at $N{=}5$, and
+  \texttt{Does Suspect 8 have a bronze watch?}$\to$\emph{Yes} at $N{=}16$).
+  \item \textbf{Success rate:} 2/3 solved in the 3-suspect batch, versus 1/3 for the naive
+  baseline. The endless-questioning loop is largely fixed.
 \end{itemize}
 
 \subsection*{If the agents still fail, discuss the underlying causes. If successful, scale
