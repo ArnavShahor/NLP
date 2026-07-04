@@ -85,14 +85,16 @@ clue being present the whole time.
 from the Accuser and Intel agents, or did the loss of ``raw'' dialogue history make their
 behavior less natural?}
 
-Mixed, but coherence improved in 2 of 3 games. The per-suspect organized summaries
-(e.g.\ Game~2: ``Suspect~2: blue eye color, wears square eye glasses, has long hair'') kept
-the Accuser tightly focused on the correct suspect and pushed it toward targeted
-\texttt{request-specific} questions --- an improvement over the naive baseline's endless
-broad queries. But when a summary was vague (Game~1's ``possibly has''), the loss of the
-verbatim Q\&A record removed Alex's memory of what it had already asked and it repeated
-questions. So compression helps when the summary is faithful and structured, and hurts when
-it introduces ambiguity.
+Mixed. The questioning became \textbf{more coherent} in 2 of 3 games: the per-suspect
+summaries (e.g.\ Game~2: ``Suspect~2: blue eye color, wears square eye glasses, has long
+hair'') kept Alex focused on one suspect and pushed it toward targeted
+\texttt{request-specific} questions, unlike the naive baseline's endless broad queries. But
+coherence did not translate into success --- \textbf{all three summarizer games still timed
+out} (0/3, versus 1/3 for the naive baseline). Replacing the raw dialogue with a summary
+removed Alex's memory of what it had already asked, so it kept re-confirming known traits
+(Game~1's vague ``possibly has'' made this worse). So compression made the \emph{style} of
+questioning cleaner but the \emph{behavior} less effective: the raw history, for all its
+bulk, was what let Alex avoid repeating itself.
 
 \subsection*{Based on your observations, do you believe this summarization approach would
 scale to a game with a much larger suspect pool (e.g., \texttt{suspect-count=20})?}
