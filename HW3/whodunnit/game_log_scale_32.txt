@@ -1,0 +1,63 @@
+Game 1
+Suspects:
+Suspect 1: their eye color is green, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have white shoes, they have a silver watch, they have short, brown pants and a green, button-up shirt.
+Suspect 2: their eye color is green, they have circular eye glasses, their hair is short, is wearing a black hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a silver watch, they have short, brown pants and a pink, button-up shirt.
+Suspect 3: their eye color is blue, they have square eye glasses, their hair is long, is wearing a brown hat, their hobby is basketball, is in a sad mood, they have red shoes, they have a bronze watch, they have long, black pants and a pink, tee shirt.
+Suspect 4: their eye color is blue, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a silver watch, they have long, brown pants and a pink, tee shirt.
+Suspect 5: their eye color is brown, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a bronze watch, they have short, brown pants and a pink, button-up shirt.
+Suspect 6: their eye color is green, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have white shoes, they have a silver watch, they have short, black pants and a pink, button-up shirt.
+Suspect 7: their eye color is green, they have square eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a bronze watch, they have short, black pants and a pink, button-up shirt.
+Suspect 8: their eye color is blue, they have square eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a bronze watch, they have short, brown pants and a pink, tee shirt.
+Suspect 9: their eye color is blue, they have square eye glasses, their hair is short, is wearing a black hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a bronze watch, they have short, black pants and a pink, tee shirt.
+Suspect 10: their eye color is brown, they have square eye glasses, their hair is short, is wearing a brown hat, their hobby is basketball, is in a sad mood, they have red shoes, they have a bronze watch, they have short, black pants and a green, tee shirt.
+Suspect 11: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is basketball, is in a sad mood, they have white shoes, they have a silver watch, they have short, brown pants and a pink, tee shirt.
+Suspect 12: their eye color is blue, they have square eye glasses, their hair is long, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a bronze watch, they have long, black pants and a green, button-up shirt.
+Suspect 13: their eye color is green, they have circular eye glasses, their hair is long, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a silver watch, they have short, brown pants and a pink, tee shirt.
+Suspect 14: their eye color is green, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a silver watch, they have long, black pants and a pink, tee shirt.
+Suspect 15: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a black hat, their hobby is dancing, is in a happy mood, they have red shoes, they have a silver watch, they have short, black pants and a pink, tee shirt.
+Suspect 16: their eye color is green, they have square eye glasses, their hair is long, is wearing a brown hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a bronze watch, they have short, brown pants and a pink, tee shirt.
+Suspect 17: their eye color is green, they have square eye glasses, their hair is short, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have white shoes, they have a silver watch, they have long, brown pants and a green, button-up shirt.
+Suspect 18: their eye color is brown, they have square eye glasses, their hair is short, is wearing a black hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a bronze watch, they have short, black pants and a pink, button-up shirt.
+Suspect 19: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a silver watch, they have short, brown pants and a pink, tee shirt.
+Suspect 20: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have red shoes, they have a bronze watch, they have long, black pants and a pink, tee shirt.
+Suspect 21: their eye color is brown, they have square eye glasses, their hair is short, is wearing a black hat, their hobby is basketball, is in a happy mood, they have red shoes, they have a silver watch, they have short, brown pants and a green, button-up shirt.
+Suspect 22: their eye color is blue, they have circular eye glasses, their hair is short, is wearing a black hat, their hobby is basketball, is in a sad mood, they have white shoes, they have a bronze watch, they have short, brown pants and a green, button-up shirt.
+Suspect 23: their eye color is green, they have square eye glasses, their hair is long, is wearing a black hat, their hobby is basketball, is in a sad mood, they have white shoes, they have a silver watch, they have long, brown pants and a pink, button-up shirt.
+Suspect 24: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is dancing, is in a happy mood, they have red shoes, they have a silver watch, they have long, brown pants and a green, button-up shirt.
+Suspect 25: their eye color is brown, they have square eye glasses, their hair is short, is wearing a brown hat, their hobby is basketball, is in a happy mood, they have white shoes, they have a bronze watch, they have short, black pants and a pink, tee shirt.
+Suspect 26: their eye color is green, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is basketball, is in a happy mood, they have red shoes, they have a bronze watch, they have long, brown pants and a pink, button-up shirt.
+Suspect 27: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a bronze watch, they have long, black pants and a pink, tee shirt.
+Suspect 28: their eye color is brown, they have square eye glasses, their hair is long, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a bronze watch, they have long, black pants and a pink, tee shirt.
+Suspect 29: their eye color is brown, they have square eye glasses, their hair is short, is wearing a black hat, their hobby is dancing, is in a happy mood, they have red shoes, they have a bronze watch, they have long, black pants and a pink, tee shirt.
+Suspect 30: their eye color is blue, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is dancing, is in a happy mood, they have white shoes, they have a silver watch, they have long, black pants and a pink, tee shirt.
+Suspect 31: their eye color is brown, they have square eye glasses, their hair is long, is wearing a brown hat, their hobby is dancing, is in a sad mood, they have white shoes, they have a silver watch, they have long, brown pants and a green, button-up shirt.
+Suspect 32: their eye color is brown, they have circular eye glasses, their hair is long, is wearing a black hat, their hobby is dancing, is in a sad mood, they have red shoes, they have a bronze watch, they have short, brown pants and a green, button-up shirt.
+==
+The culprit is: 17
+==
+Communication channel:
+Alex asked a broad question about: Which suspects are wearing a brown hat?
+Beth responded with: Suspect 1, Suspect 3, Suspect 5, Suspect 6, Suspect 7, Suspect 8, Suspect 10, Suspect 11, Suspect 12, Suspect 13, Suspect 16, Suspect 17, Suspect 19, Suspect 20, Suspect 25, Suspect 28, Suspect 31
+Alex asked a broad question about: Which suspects have green eye color?
+Beth responded with: Suspect 1, Suspect 2, Suspect 6, Suspect 7, Suspect 13, Suspect 14, Suspect 16, Suspect 17, Suspect 23, Suspect 26
+Alex asked a broad question about: Which suspects have square eye glasses?**
+Beth responded with: Suspect 3, Suspect 7, Suspect 8, Suspect 9, Suspect 10, Suspect 12, Suspect 16, Suspect 17, Suspect 18, Suspect 21, Suspect 23, Suspect 25, Suspect 28, Suspect 29, Suspect 31
+Alex asked a broad question about: Which suspects have short hair?**
+Beth responded with: Suspect 1, Suspect 2, Suspect 5, Suspect 6, Suspect 7, Suspect 8, Suspect 9, Suspect 10, Suspect 11, Suspect 15, Suspect 17, Suspect 18, Suspect 20, Suspect 21, Suspect 22, Suspect 25, Suspect 29
+Alex asked a broad question about: Which suspects have white shoes?**
+Beth responded with: Suspect 1, Suspect 4, Suspect 5, Suspect 6, Suspect 9, Suspect 11, Suspect 12, Suspect 13, Suspect 14, Suspect 16, Suspect 17, Suspect 22, Suspect 23, Suspect 25, Suspect 27, Suspect 30, Suspect 31
+Alex asked a broad question about: Which suspects have dancing as a hobby?
+Beth responded with: Suspect 1, Suspect 2, Suspect 4, Suspect 5, Suspect 6, Suspect 7, Suspect 8, Suspect 9, Suspect 15, Suspect 16, Suspect 17, Suspect 18, Suspect 19, Suspect 24, Suspect 27, Suspect 28, Suspect 29, Suspect 30, Suspect 31, Suspect 32
+Alex asked a broad question about: Which suspects are in a sad mood?
+Beth responded with: Suspect 1, Suspect 2, Suspect 3, Suspect 6, Suspect 7, Suspect 8, Suspect 10, Suspect 17, Suspect 18, Suspect 22, Suspect 23, Suspect 28, Suspect 32
+Alex asked a specific question: Does Suspect 7 have a silver watch?
+Beth responded with: No
+Alex asked a broad question about: Which suspects have a silver watch?
+Beth responded with: Suspect 1, Suspect 2, Suspect 4, Suspect 6, Suspect 11, Suspect 13, Suspect 14, Suspect 15, Suspect 17, Suspect 19, Suspect 21, Suspect 23, Suspect 24, Suspect 30, Suspect 31
+Alex asked a broad question about: Which suspects have long, brown pants?**
+Beth responded with: Suspect 4, Suspect 17, Suspect 23, Suspect 24, Suspect 26, Suspect 31
+Alex asked a specific question: Does Suspect 17 have a silver watch?
+Beth responded with: Yes
+Alex accused Suspect 17 and was correct!
+
+=================

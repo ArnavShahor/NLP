@@ -22,20 +22,19 @@ agent.
 \subsection*{What specific behavioral problems did you identify in the initial run of the
 naive agents? Provide at least two concrete examples from your \texttt{game\_log}.}
 
-\paragraph{Problem A --- Analysis paralysis: the Accuser will not accuse even when the
-culprit is already uniquely determined.}
-\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
-  \item \textbf{Game 1} (culprit $=$ Suspect~3): only Suspect~3 wears square glasses, so
-  Beth's answer \texttt{square eye glasses $\rightarrow$ Suspect 3} already fixed the
-  culprit. Alex still asked four more broad questions and never accused, hitting the turn limit.
-  \item \textbf{Game 2} (culprit $=$ Suspect~3): \texttt{blue eye color $\rightarrow$ S2, S3}
-  and \texttt{circular eye glasses $\rightarrow$ S1, S3} intersect to \{S3\}, yet Alex kept
-  questioning until timeout.
-\end{itemize}
+\paragraph{Problem A --- Analysis paralysis: the Accuser will not accuse even when a single
+answer already fixes the culprit.} In \textbf{Game 1} (culprit $=$ Suspect~3) only Suspect~3
+wears square glasses, so Beth's answer \texttt{square eye glasses $\rightarrow$ Suspect 3}
+uniquely determined the culprit on the second question. Alex nonetheless asked four more
+broad questions and never accused, hitting the turn limit.
 
-\paragraph{Problem B --- No cross-turn reasoning.} The Accuser treats each answer in
-isolation and never intersects the narrowing suspect lists into a running candidate set, so
-it cannot recognize that only one suspect remains --- the root cause of Problem~A.
+\paragraph{Problem B --- No cross-turn reasoning: the Accuser never intersects the narrowing
+suspect lists into a running candidate set.} In \textbf{Game 2} (culprit $=$ Suspect~3) no
+single answer pins the culprit; it emerges only from combining
+\texttt{blue eye color $\rightarrow$ S2, S3} with \texttt{circular eye glasses $\rightarrow$
+S1, S3}, whose intersection is \{S3\}. Because Alex treats each answer in isolation, it never
+computes this intersection, keeps questioning, and times out. This inability to accumulate
+evidence across turns is the underlying cause of the analysis paralysis in Problem~A.
 
 \subsection*{Do the agents dynamically utilize the full spectrum of their available action
 space, or do they prematurely converge on a single, repetitive action type? Analyze how
@@ -193,24 +192,31 @@ suspects. All configurations were \textbf{solved correctly}:
   collapsed to \{S16\} after \emph{4} broad questions
   (\texttt{basketball} $\cap$ \texttt{black hat} $\cap$ \texttt{white shoes} $\cap$
   \texttt{brown eyes}), but the Accuser asked \emph{9} before accusing.
+  \item \textbf{32 suspects} (96 turns): accused Suspect~17 correctly. The intersection
+  collapsed to \{S17\} after \emph{5} broad questions
+  (\texttt{brown hat} $\cap$ \texttt{green eyes} $\cap$ \texttt{square glasses} $\cap$
+  \texttt{short hair} $\cap$ \texttt{white shoes}), yet the Accuser asked \emph{11} before
+  accusing (four more broad questions and two specific ones after the culprit was already
+  uniquely fixed).
 \end{itemize}
-So the agents' reasoning reliably scales to \textbf{at least 20 suspects} (the largest we
+So the agents' reasoning reliably scales to \textbf{at least 32 suspects} (the largest we
 tested), given a turn limit of $\approx 3\times$ the suspect count. A first attempt at
-$N{=}20$ launched on an already-spent daily budget had been cut off by the Groq free-tier
-daily token cap (\texttt{Limit 100000}) after only 7 answered questions; re-running on a
-fresh budget solved it cleanly --- confirming that the cap bounds \emph{throughput}, not the
-agents' ability.
+$N{=}32$ launched on an already-spent daily budget had been cut off by the Groq free-tier
+daily token cap (\texttt{Limit 100000}): every one of its turns returned a
+\texttt{429 tokens-per-day} error with no real Q\&A. Re-running on a fresh budget solved it
+cleanly --- confirming that the cap bounds \emph{throughput}, not the agents' ability.
 
 \paragraph{Factors that limit scaling.} (1)~\textbf{Over-verification} is the dominant
 inefficiency: the Accuser consistently asks several more questions than needed to reach a
 singleton (needed vs.\ asked was 2 vs.\ 7 at $N{=}8$, 4 vs.\ 10 at $N{=}12$, 5 vs.\ 8 at
-$N{=}16$, 4 vs.\ 9 at $N{=}20$). This is harmless when turns are plentiful but is precisely
+$N{=}16$, 4 vs.\ 9 at $N{=}20$, 5 vs.\ 11 at $N{=}32$). This is harmless when turns are
+plentiful but is precisely
 what causes timeouts under a tight limit --- so the required turn budget, not correctness,
 is the practical ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-token
-thoughts plus an Intel prompt that grows with $N$) is token-expensive. A single $N{=}20$
+thoughts plus an Intel prompt that grows with $N$) is token-expensive. A single $N{=}32$
 game fits a fresh daily budget, but launched on an already-spent budget it hit the Groq
-free-tier \textbf{daily token cap} (\texttt{tokens per day: Limit 100000}) after just 7
-questions, and on an earlier day even $N{=}8$/$N{=}12$ capped mid-game. So throughput ---
+free-tier \textbf{daily token cap} (\texttt{tokens per day: Limit 100000}) on its very
+first turn, and on an earlier day even $N{=}8$/$N{=}12$ capped mid-game. So throughput ---
 how many and how large the games can be per day --- is bounded by the budget even when a
 single game's reasoning would succeed. (3)~\textbf{Intel accuracy at scale:} with 20+
 descriptions to scan per broad question there is more room for a missed or misclassified
