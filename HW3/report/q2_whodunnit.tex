@@ -50,8 +50,8 @@ an endless loop until the \texttt{max-turn-count} is reached? Why do you think i
 to finalize the decision?}
 
 It gets stuck in an \textbf{endless questioning loop}, not a premature accusation: Games~1
-and~2 reach \texttt{max-turn-count} with no accusation, and Game~3 accuses correctly only
-after redundant confirmation. It struggles to finalize because:
+and~2 reach the \texttt{max-\allowbreak turn-\allowbreak count} with no accusation, and
+Game~3 accuses correctly only after redundant confirmation. It struggles to finalize because:
 \begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
   \item \textbf{Stateless prompting} --- no maintained candidate set, so it never sees that
   one suspect remains;
@@ -62,11 +62,10 @@ after redundant confirmation. It struggles to finalize because:
 
 \section*{2.2 \quad Context Management via Summarization}
 
-We implemented \texttt{SummerizerAgent.summarize} as an evidence-preserving LLM rewrite of
-the channel (\texttt{temperature}=0.2, prompt instructed to keep every per-suspect
-confirmed/excluded attribute and never invent facts) and ran with the summarizer enabled
-(\texttt{python run\_game.py --include-summerizer --iterations 3}). The Summarizer is
-\emph{Charlie}.
+We implemented \texttt{summarize} in \texttt{SummerizerAgent} as an evidence-preserving LLM
+rewrite of the channel (\texttt{temperature}=0.2, prompt instructed to keep every
+per-suspect confirmed/excluded attribute and never invent facts) and ran with the summarizer
+enabled. The Summarizer is \emph{Charlie}.
 
 \subsection*{Did the summarizer inadvertently remove any critical clues that led to the
 Accuser failing to identify the culprit?}
@@ -111,9 +110,10 @@ natural-language summary.
 
 \section*{2.3 \quad Implementing Reasoning Agents}
 
-We implemented \texttt{take\_turn\_thought} for both the Intel and the Accuser
-(\texttt{python run\_game.py --allow-internal-thought}). Each agent may now reason freely,
-but still emits the environment's required final \texttt{ACTION}/\texttt{INFO} block.
+We ran with the \texttt{-{}-allow-\allowbreak internal-\allowbreak thought} flag and
+implemented \texttt{take\_turn\_thought} for both the Intel and the Accuser. Each agent may
+now reason freely, but still emits the environment's required final
+\texttt{ACTION}/\texttt{INFO} block.
 
 \subsection*{Detail your architectural decisions regarding prompt engineering. What specific
 intermediate reasoning steps did you introduce to guide the agents, and what did you want
