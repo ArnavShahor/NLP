@@ -206,25 +206,30 @@ suspects. All configurations were \textbf{solved correctly}:
   \{S8\} after \emph{5} questions, but the Accuser asked \emph{8} (one of which showed
   chain-of-thought text leaking into the \texttt{INFO} field; the stray answer was ignored
   and the next turn accused correctly).
+  \item \textbf{20 suspects} (60 turns): accused Suspect~16 correctly. The intersection
+  collapsed to \{S16\} after \emph{4} broad questions
+  (\texttt{basketball} $\cap$ \texttt{black hat} $\cap$ \texttt{white shoes} $\cap$
+  \texttt{brown eyes}), but the Accuser asked \emph{9} before accusing.
 \end{itemize}
-So the agents' reasoning reliably scales to \textbf{at least 16 suspects} (the largest we
-tested) given a turn limit of $\approx 3\times$ the suspect count. A further attempt at
-\textbf{20 suspects} (60-turn limit) could not be evaluated: it exhausted the Groq
-free-tier daily token cap after only 7 answered questions (\texttt{Used 99221/100000}), so
-no accusation was reached. That is a budget cutoff, not a reasoning failure --- the
-confirmed solved maximum therefore stands at 16.
+So the agents' reasoning reliably scales to \textbf{at least 20 suspects} (the largest we
+tested), given a turn limit of $\approx 3\times$ the suspect count. A first attempt at
+$N{=}20$ launched on an already-spent daily budget had been cut off by the Groq free-tier
+daily token cap (\texttt{Limit 100000}) after only 7 answered questions; re-running on a
+fresh budget solved it cleanly --- confirming that the cap bounds \emph{throughput}, not the
+agents' ability.
 
 \paragraph{Factors that limit scaling.} (1)~\textbf{Over-verification} is the dominant
 inefficiency: the Accuser consistently asks several more questions than needed to reach a
 singleton (needed vs.\ asked was 2 vs.\ 7 at $N{=}8$, 4 vs.\ 10 at $N{=}12$, 5 vs.\ 8 at
-$N{=}16$). This is harmless when turns are plentiful but is precisely what causes timeouts
-under a tight limit --- so the required turn budget, not correctness, is the practical
-ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-token thoughts plus an Intel
-prompt that grows with $N$) is token-expensive. The $N{=}20$ attempt hit the Groq free-tier
-\textbf{daily token cap} (\texttt{tokens per day: Limit 100000}) after just 7 answered
+$N{=}16$, 4 vs.\ 9 at $N{=}20$). This is harmless when turns are plentiful but is precisely
+what causes timeouts under a tight limit --- so the required turn budget, not correctness,
+is the practical ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-token
+thoughts plus an Intel prompt that grows with $N$) is token-expensive. A single $N{=}20$
+game fits a fresh daily budget, but launched on an already-spent budget it hit the Groq
+free-tier \textbf{daily token cap} (\texttt{tokens per day: Limit 100000}) after just 7
 questions, and on an earlier day even $N{=}8$/$N{=}12$ capped mid-game. So throughput ---
 how many and how large the games can be per day --- is bounded by the budget even when a
-single game's reasoning would succeed. (3)~\textbf{Intel accuracy at scale:} with 16+
+single game's reasoning would succeed. (3)~\textbf{Intel accuracy at scale:} with 20+
 descriptions to scan per broad question there is more room for a missed or misclassified
 suspect, which would corrupt the intersection.
 
@@ -275,8 +280,8 @@ improve the overall success rate of the system.}
 \label{app:scale16}
 \lstinputlisting[style=gamelog]{logs/scale16_game_log.txt}
 
-\section{Reasoning-agent scaling: 20 suspects (excerpt; hit daily token cap after 7 questions)}
+\section{Reasoning-agent scaling: 20 suspects}
 \label{app:scale20}
-\lstinputlisting[style=gamelog]{logs/scale20_excerpt.txt}
+\lstinputlisting[style=gamelog]{logs/scale20_game_log.txt}
 
 \end{document}
