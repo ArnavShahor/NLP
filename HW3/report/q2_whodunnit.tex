@@ -103,8 +103,9 @@ Not without changes. (1)~A free-text LLM rewrite is lossy: the ``possibly'' dist
 at 3 suspects will compound at 20, and a single weakened or dropped fact can leave the
 culprit ambiguous. (2)~The summary must record facts for many suspects, so its length grows
 with the pool and the ``concise channel'' benefit erodes. (3)~The real bottleneck is the
-Accuser's reasoning and stopping ability, which summarization does not address --- and a
-third of all turns are consumed by summarizing. A deterministic, structured state (a
+Accuser's reasoning and stopping ability, which summarization does not address --- in fact it
+worsened matters at $N{=}3$ (0/3 solved vs.\ 1/3 naive), since a third of all turns are
+consumed by summarizing. A deterministic, structured state (a
 maintained per-suspect table of confirmed/excluded attributes) would scale far better than a
 natural-language summary.
 
@@ -197,12 +198,24 @@ suspects. All configurations were \textbf{solved correctly}:
   accusing (four more broad questions and two specific ones after the culprit was already
   uniquely fixed).
 \end{itemize}
-So the agents' reasoning reliably scales to \textbf{at least 32 suspects} (the largest we
-tested), given a turn limit of $\approx 3\times$ the suspect count. A first attempt at
+So the agents' reasoning reliably scales to \textbf{at least 32 suspects}, given a turn
+limit of $\approx 3\times$ the suspect count. A first attempt at
 $N{=}32$ launched on an already-spent daily budget had been cut off by the Groq free-tier
 daily token cap (\texttt{Limit 100000}): every one of its turns returned a
 \texttt{429 tokens-per-day} error with no real Q\&A. Re-running on a fresh budget solved it
 cleanly --- confirming that the cap bounds \emph{throughput}, not the agents' ability.
+
+\paragraph{Where the budget becomes the ceiling ($N{=}64$).} Beyond 32 suspects the
+\emph{free-tier daily budget}, not the agents' reasoning, becomes the binding constraint. A
+64-suspect game needs $\approx 3\times64 = 192$ turns, and every Intel turn re-embeds all 64
+suspect descriptions on top of the $\approx1024$-token thoughts, so a single game requires
+several hundred thousand tokens --- multiples of the 100000-token daily cap. Every $N{=}64$
+attempt we launched was consequently killed by a \texttt{429 tokens-per-day} error before a
+single question was answered (zero real Q\&A logged), so we could not obtain a clean
+pass/fail: $N{=}64$ \textbf{fails under the free-tier budget}, but this is a
+\emph{throughput} limit rather than a demonstrated reasoning limit. Making it observable
+would require the token-reduction changes proposed below (shorter thoughts, and routing
+Intel through the small model) or a paid tier that removes the daily cap.
 
 \paragraph{Factors that limit scaling.} (1)~\textbf{Over-verification} is the dominant
 inefficiency: the Accuser consistently asks several more questions than needed to reach a
@@ -214,11 +227,13 @@ is the practical ceiling. (2)~\textbf{API budget:} each 70B turn ($\approx$1024-
 thoughts plus an Intel prompt that grows with $N$) is token-expensive. A single $N{=}32$
 game fits a fresh daily budget, but launched on an already-spent budget it hit the Groq
 free-tier \textbf{daily token cap} (\texttt{tokens per day: Limit 100000}) on its very
-first turn, and on an earlier day even $N{=}8$/$N{=}12$ capped mid-game. So throughput ---
-how many and how large the games can be per day --- is bounded by the budget even when a
-single game's reasoning would succeed. (3)~\textbf{Intel accuracy at scale:} with 20+
-descriptions to scan per broad question there is more room for a missed or misclassified
-suspect, which would corrupt the intersection.
+first turn, and on an earlier day even $N{=}8$/$N{=}12$ capped mid-game. By $N{=}64$ a
+single game's demand ($\approx$192 turns, each re-embedding all 64 descriptions) exceeds the
+daily cap outright, so no complete game fits and every attempt is cut off before any Q\&A.
+So throughput --- how many and how large the games can be per day --- is bounded by the
+budget even when a single game's reasoning would succeed. (3)~\textbf{Intel accuracy at
+scale:} with 20+ descriptions to scan per broad question there is more room for a missed or
+misclassified suspect, which would corrupt the intersection.
 
 \subsection*{Propose three modifications that could further enhance agent performance and
 improve the overall success rate of the system.}
