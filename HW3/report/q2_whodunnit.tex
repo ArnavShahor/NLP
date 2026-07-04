@@ -2,23 +2,8 @@
 \usepackage{graphicx}
 \usepackage{amsmath, amssymb}
 \usepackage[margin=1in]{geometry}
-\usepackage{xcolor}
-\usepackage{listings}
 \usepackage{enumitem}
 \usepackage{hyperref}
-
-% Monospace style for game-log excerpts
-\definecolor{loggray}{gray}{0.96}
-\lstdefinestyle{gamelog}{
-    basicstyle=\ttfamily\footnotesize,
-    backgroundcolor=\color{loggray},
-    breaklines=true,
-    frame=single,
-    framesep=4pt,
-    columns=fullflexible,
-    keepspaces=true,
-    showstringspaces=false
-}
 
 \title{NLP HW3 --- Q2: WhoDunnit (Multi-Agent Systems)}
 \author{Gal Barak}
@@ -32,7 +17,7 @@
 We ran the naive baseline with the default configuration and no additional flags
 (\texttt{python run\_game.py --iterations 3}: 3 suspects, \texttt{max\_turn\_count = 11},
 no summarizer, no internal thought). \emph{Alex} is the Accuser and \emph{Beth} the Intel
-agent. The full log is in Appendix~\ref{app:naive}; the analysis below cites it directly.
+agent.
 
 \subsection*{What specific behavioral problems did you identify in the initial run of the
 naive agents? Provide at least two concrete examples from your \texttt{game\_log}.}
@@ -83,7 +68,7 @@ We implemented \texttt{SummerizerAgent.summarize} as an evidence-preserving LLM 
 the channel (\texttt{temperature}=0.2, prompt instructed to keep every per-suspect
 confirmed/excluded attribute and never invent facts) and ran with the summarizer enabled
 (\texttt{python run\_game.py --include-summerizer --iterations 3}). The Summarizer is
-\emph{Charlie}. The full log is in Appendix~\ref{app:summ}.
+\emph{Charlie}.
 
 \subsection*{Did the summarizer inadvertently remove any critical clues that led to the
 Accuser failing to identify the culprit? Provide a specific example from the logs.}
@@ -130,9 +115,7 @@ natural-language summary.
 
 We implemented \texttt{take\_turn\_thought} for both the Intel and the Accuser
 (\texttt{python run\_game.py --allow-internal-thought}). Each agent may now reason freely,
-but still emits the environment's required final \texttt{ACTION}/\texttt{INFO} block. Logs
-for 3 suspects are in Appendix~\ref{app:thought}; the scaling runs in
-Appendices~\ref{app:scale5}--\ref{app:scale20}.
+but still emits the environment's required final \texttt{ACTION}/\texttt{INFO} block.
 
 \subsection*{Detail your architectural decisions regarding prompt engineering. What specific
 intermediate reasoning steps did you introduce to guide the agents, and what did you want
@@ -250,38 +233,5 @@ improve the overall success rate of the system.}
   \texttt{time.sleep}/backoff-and-retry on 429 --- so larger suspect pools fit within the
   daily and per-minute limits.
 \end{enumerate}
-
-\appendix
-\section{Naive baseline game log}
-\label{app:naive}
-\lstinputlisting[style=gamelog]{logs/naive_game_log.txt}
-
-\section{Summarizer-enabled game log}
-\label{app:summ}
-\lstinputlisting[style=gamelog]{logs/summarizer_game_log.txt}
-
-\section{Reasoning-agent game log (3 suspects)}
-\label{app:thought}
-\lstinputlisting[style=gamelog]{logs/thought_game_log.txt}
-
-\section{Reasoning-agent scaling: 5 suspects}
-\label{app:scale5}
-\lstinputlisting[style=gamelog]{logs/scale5_game_log.txt}
-
-\section{Reasoning-agent scaling: 8 suspects}
-\label{app:scale8}
-\lstinputlisting[style=gamelog]{logs/scale8_game_log.txt}
-
-\section{Reasoning-agent scaling: 12 suspects}
-\label{app:scale12}
-\lstinputlisting[style=gamelog]{logs/scale12_game_log.txt}
-
-\section{Reasoning-agent scaling: 16 suspects}
-\label{app:scale16}
-\lstinputlisting[style=gamelog]{logs/scale16_game_log.txt}
-
-\section{Reasoning-agent scaling: 20 suspects}
-\label{app:scale20}
-\lstinputlisting[style=gamelog]{logs/scale20_game_log.txt}
 
 \end{document}
