@@ -8,7 +8,7 @@ from consts import *
 
 class Env:
     def __init__(self, game_conf):
-        self.agent_count = 3 if game_conf['include_summerizer'] else 2
+        self.agent_count = 3 if game_conf['include_summarizer'] else 2
         self.attribute_file = game_conf['attribute_file']
         self.conf = game_conf
 
@@ -24,7 +24,7 @@ class Env:
         self.accuser = AccuserAgent(AGENT_NAMES[0], self.culprit.generate_suspect_description(), self.suspect_count, allow_internal_thought=game_conf['allow_internal_thought'])
         self.intel = IntelAgent(AGENT_NAMES[1], self.suspects, allow_internal_thought=game_conf['allow_internal_thought'])
         self.agents = [self.accuser, self.intel]
-        if game_conf['include_summerizer']:
+        if game_conf['include_summarizer']:
             self.summerizer = SummerizerAgent(name=AGENT_NAMES[2], suspect_sount=self.suspect_count)
             self.agents.append(self.summerizer)
 

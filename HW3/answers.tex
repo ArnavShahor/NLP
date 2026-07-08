@@ -85,7 +85,7 @@ Using in-context learning with $n = 10$ demonstrations (10 random examples from 
 \subsubsection*{1.4.e --- ICL Analysis}
 
 We analyzed how demonstration \textbf{quantity}, \textbf{ordering}, and \textbf{similarity} affect accuracy.
-All experiments used temperature $0$ and the same evaluation pipeline as in 1.4.d. \textbf{Important Note:} Since the examples are chosen randomly, rerunning the experiment showed high variance in the results, we chose a representing experiment to base our conclusions on (avaraging over many experiments takes considerable time with our computers).
+All experiments used temperature $0$ and the same evaluation pipeline as in 1.4.d. \textbf{Important Note:} Since the examples are chosen randomly, rerunning the experiment showed high variance in the results, we chose a representing experiment to base our conclusions on (averaging over many experiments takes considerable time with our computers).
 
 \paragraph{Quantity of demonstrations.}
 \begin{center}
@@ -463,5 +463,35 @@ improve the overall success rate of the system.}
   is better when relevance is semantic, since it matches meaning and can retrieve passages
   that use synonyms or paraphrases the query never mentions.
 \end{enumerate}
+
+\newpage
+\section*{Question 4: AI Disclosure \& Reflection}
+
+\paragraph{1. Did you use AI?}
+Yes. We used Anthropic's \textbf{Claude} (via the Claude Code CLI, Opus-class models) and,
+for occasional quick lookups, \textbf{ChatGPT}. The models under study in the assignment
+itself (\texttt{llama-3.1-8b-instant}, \texttt{llama-3.3-70b-versatile} via the Groq API, GPT-2,
+and \texttt{all-mpnet-base-v2}) were used as the objects of the experiments rather than as
+authoring aids.
+
+\paragraph{2. How and why did you use it?}
+We used AI as a coding and writing assistant, not as a substitute for our own understanding.
+Concretely: (i)~\textbf{code generation and debugging} --- scaffolding helper functions
+(e.g.\ answer normalization, the chain-of-thought answer extractor, and parsing the agents'
+final \texttt{ACTION}/\texttt{INFO} block), and diagnosing errors during the WhoDunnit runs;
+(ii)~\textbf{prompt engineering} --- iterating on the system prompts for the reasoning agents
+and the summarizer; (iii)~\textbf{editing and structuring the written report} --- tightening
+phrasing and organizing the analysis. All experimental results, accuracy numbers, and game
+logs reported here were produced by running our own code, and we verified every claim against
+the actual notebook outputs and logs before including it.
+
+\paragraph{3. Reflection.}
+AI assistance was most helpful for boilerplate and for quickly surfacing bugs, which let us
+spend more time on the conceptual parts --- designing prompts and interpreting the results.
+What hindered us more than the tooling were the Groq free-tier rate and token limits, which
+constrained how many large-scale WhoDunnit games we could run. Our main takeaway is that AI is
+a strong accelerator for implementation and drafting, but the analysis and validation still
+require careful human judgment: the model can propose a plausible explanation, yet it is our
+responsibility to check it against the evidence.
 
 \end{document}

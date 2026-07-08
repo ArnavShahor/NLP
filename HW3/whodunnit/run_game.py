@@ -12,8 +12,8 @@ def parse_args():
                         help='Maximum number of turns')
     parser.add_argument('--attribute-file', type=str, default=DEFAULT_ATTRIBUTE_FILE,
                         help='Path to attribute file')
-    parser.add_argument('--include-summerizer', action='store_true', default=False,
-                        help='Include summerizer (default: False)')
+    parser.add_argument('--include-summarizer', action='store_true', default=False,
+                        help='Include summarizer (default: False)')
     parser.add_argument('--allow-internal-thought', action='store_true', default=False,
                         help='Allow agents to have internal thought (default: False)')
     parser.add_argument('--log-file', type=str, default='game_log.txt',
@@ -42,7 +42,7 @@ if __name__ == "__main__":
         "suspect_count": args.suspect_count,
         "max_turn_count": args.max_turn_count,
         "attribute_file": args.attribute_file,
-        "include_summerizer": args.include_summerizer,
+        "include_summarizer": args.include_summarizer,
         "allow_internal_thought": args.allow_internal_thought,
         "log_file": args.log_file,
     }
