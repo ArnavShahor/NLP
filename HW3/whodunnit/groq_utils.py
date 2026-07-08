@@ -1,6 +1,8 @@
+import os
+
 from groq import Groq
 
-API_KEY = "Your Key Here"
+API_KEY = os.environ.get("GROQ_API_KEY")
 
 MODEL_NAME = "llama-3.3-70b-versatile"
 SMALL_MODEL_NAME = "llama-3.1-8b-instant"
@@ -8,6 +10,8 @@ TEST_SYSTEM_PROMPT = "You are a helpful asssitant. Please Answer only in True or
 
 
 def get_groq_client():
+    if not API_KEY:
+        raise RuntimeError("GROQ_API_KEY not configured")
     return Groq(api_key=API_KEY)
 
 def query_llama(prompt, sys_prompt, use_small_model=False, temperature=0.8, max_tokens=512, client=None):
